@@ -5,6 +5,8 @@ import Particles from "@/components/Particles";
 import TypewriterCode from "@/components/TypewriterCode";
 import ScrollTopButton from "@/components/ScrollTopButton";
 import TweetPlaceholder from "@/components/TweetPlaceholder";
+import LogoSpotlight from "@/components/LogoSpotlight";
+import RevealInit from "@/components/RevealInit";
 
 const codeSample = `type AIModel = {
   name: string
@@ -111,37 +113,7 @@ export default function Home() {
       {/* Community */}
       <section id="community">
         <div className="container community-grid">
-          <div className="logo-spotlight" data-reveal>
-            <div className="spot" aria-hidden />
-            <svg
-              width="260"
-              height="260"
-              viewBox="0 0 100 100"
-              role="img"
-              aria-label="RIDE ON AI ロゴ"
-              onMouseMove={(e) => {
-                const target = (e.currentTarget.parentElement?.querySelector(
-                  ".spot"
-                ) as HTMLElement)!;
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width) * 100;
-                const y = ((e.clientY - rect.top) / rect.height) * 100;
-                target.style.setProperty("--x", `${x}%`);
-                target.style.setProperty("--y", `${y}%`);
-              }}
-            >
-              <defs>
-                <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#2563eb" />
-                  <stop offset="100%" stopColor="#8b5cf6" />
-                </linearGradient>
-              </defs>
-              <circle cx="50" cy="50" r="44" fill="url(#g)" />
-              <text x="50" y="57" textAnchor="middle" fontSize="30" fill="#fff" fontFamily="var(--font-montserrat)">
-                RAI
-              </text>
-            </svg>
-          </div>
+          <LogoSpotlight />
           <div>
             <h2 className="section-title" data-reveal>
               生成AI検証コミュニティ「RIDE ON AI」
@@ -224,7 +196,7 @@ export default function Home() {
 
       <Footer />
       <ScriptTags />
-      <RevealScript />
+      <RevealInit />
       <ScrollTopButton />
     </>
   );
@@ -236,17 +208,6 @@ function ScriptTags() {
       {/* Twitter widgets for embeds (loads on client) */}
       <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8" />
     </>
-  );
-}
-
-function RevealScript() {
-  // Minimal AOS-like behavior
-  return (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `(()=>{const els=[...document.querySelectorAll('[data-reveal]')];const io=new IntersectionObserver((es)=>{for(const e of es){if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target);}}},{threshold:.12});els.forEach(e=>io.observe(e));})();`,
-      }}
-    />
   );
 }
 

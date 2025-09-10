@@ -20,6 +20,11 @@
   --bp-sm: 576px;
   --bp-xs: 375px;
   --bp-xxs: 320px;
+
+  /* Font variables (when not using next/font) */
+  --font-noto-sans-jp: "Noto Sans JP";
+  --font-montserrat: "Montserrat";
+  --font-source-code-pro: "Source Code Pro";
 }
 
 @media (prefers-color-scheme: dark) {

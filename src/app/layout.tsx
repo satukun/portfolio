@@ -1,27 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP, Montserrat, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
-
-const notoSansJP = Noto_Sans_JP({
-  variable: "--font-noto-sans-jp",
-  subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "700", "900"],
-  display: "swap",
-});
-
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
-
-const sourceCodePro = Source_Code_Pro({
-  variable: "--font-source-code-pro",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  display: "swap",
-});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -82,10 +60,15 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200"
           rel="stylesheet"
         />
+        {/* Google Fonts (self-hosting via next/font disabled to avoid server fetch) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Montserrat:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;600;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body
-        className={`${notoSansJP.variable} ${montserrat.variable} ${sourceCodePro.variable}`}
-      >
+      <body>
         {children}
       </body>
     </html>
