@@ -31,9 +31,6 @@ export default function Footer() {
           <div className="f-title">SNS</div>
           <ul>
             <li>
-              <a href="https://youtube.com/@akira_papa_IT" target="_blank">YouTube</a>
-            </li>
-            <li>
               <a href="https://note.com/akira_papa_ai" target="_blank">note</a>
             </li>
             <li>
@@ -43,7 +40,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="container copyright">
-        © 2025 あきらパパ
+        © 2025 YOUSUKE
       </div>
     </footer>
   );

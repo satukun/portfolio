@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -24,36 +25,36 @@ export default function Header() {
       <div className="container header-inner">
         <Link href="#" className="brand" onClick={() => setOpen(false)}>
           <span className="brand-avatar">
-            <img src="/profile_image/akira-papa-profile.jpg" alt="あきらパパ" width={32} height={32} />
+            <img src="/profile_image/akira-papa-profile.jpg" alt="YOUSUKE" width={32} height={32} />
           </span>
-          <span className="brand-text">あきらパパ</span>
+          <span className="brand-text">YOUSUKE</span>
         </Link>
         <nav className={`nav ${open ? "open" : ""}`}>
           <Link href="#profile" onClick={() => setOpen(false)}>
             <span className="material-symbols-outlined" aria-hidden>person</span>プロフィール
           </Link>
-          <Link href="#community" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>hub</span>コミュニティ
-          </Link>
-          <Link href="#twitter" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>forum</span>ツイート
+          <Link href="#posts" onClick={() => setOpen(false)}>
+            <span className="material-symbols-outlined" aria-hidden>article</span>記事
           </Link>
           <Link href="#contact" onClick={() => setOpen(false)}>
             <span className="material-symbols-outlined" aria-hidden>person_add</span>フォロー
           </Link>
-          <a className="btn cta" href="#community" onClick={() => setOpen(false)}>
-            参加する
+          <a className="btn cta" href="#posts" onClick={() => setOpen(false)}>
+            記事を読む
           </a>
         </nav>
-        <button
-          aria-label="メニュー"
-          className={`hamburger ${open ? "active" : ""}`}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+        <div className="header-controls">
+          <ThemeSwitcher />
+          <button
+            aria-label="メニュー"
+            className={`hamburger ${open ? "active" : ""}`}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
     </header>
   );

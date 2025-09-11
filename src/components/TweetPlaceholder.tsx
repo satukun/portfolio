@@ -6,7 +6,7 @@ type Props = {
 };
 
 export default function TweetPlaceholder({
-  author = "あきらパパ",
+  author = "YOUSUKE",
   handle = "@akira_papa_IT",
   text,
   date = "2025/01/01",

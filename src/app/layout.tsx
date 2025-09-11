@@ -4,41 +4,42 @@ import "./globals.css";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: "YOUSUKE.SATO | 生成AIをエンジニア視点で共有",
+  title: "YOUSUKE | フロントエンドエンジニア - React/Next.js専門",
   description:
-    "AIエンジニアの視点で最新の生成AI技術を共有。個人ブランドの確立、コミュニティへの誘導、SNSフォロワー獲得を目的としたブランディングサイト。",
+    "フロントエンドエンジニアの実務経験を通じた技術知識・ベストプラクティスを発信。React/Next.js/TypeScriptに特化した実践的なコンテンツを提供しています。",
   metadataBase: new URL(siteUrl),
-  applicationName: "YOUSUKE.SATO",
+  applicationName: "YOUSUKE",
   keywords: [
-    "生成AI",
-    "AIエンジニア",
-    "LLM",
-    "ChatGPT",
+    "フロントエンド",
+    "React",
     "Next.js",
     "TypeScript",
-    "コミュニティ",
+    "Tailwind CSS",
+    "パフォーマンス最適化",
+    "UI/UX",
+    "エンジニア",
   ],
   openGraph: {
-    title: "YOUSUKE.SATO",
+    title: "YOUSUKE",
     description:
-      "エンジニアの視点で最新の生成AI技術を共有するブランディングサイト",
+      "フロントエンドエンジニアの実務経験を通じた技術知識発信サイト",
     type: "website",
     url: "/",
-    siteName: "YOUSUKE.SATO",
+    siteName: "YOUSUKE",
     images: [
       {
         url: "/ogp.png",
         width: 1200,
         height: 630,
-        alt: "YOUSUKE.SATO",
+        alt: "YOUSUKE",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "YOUSUKE.SATO",
+    title: "YOUSUKE",
     description:
-      "エンジニアの視点で最新の生成AI技術を共有するブランディングサイト",
+      "フロントエンドエンジニアの実務経験を通じた技術知識発信サイト",
     images: ["/ogp.png"],
   },
   icons: {

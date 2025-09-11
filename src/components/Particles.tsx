@@ -31,17 +31,17 @@ export default function Particles({ className }: Props) {
     canvas.addEventListener("mousemove", onMove);
     canvas.addEventListener("mouseleave", onLeave);
 
-    const particles = Array.from({ length: 80 }, () => ({
+    const particles = Array.from({ length: 120 }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      r: Math.random() * 1.8 + 0.6,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: Math.random() * 2.5 + 1.2,
     }));
 
     function tick() {
       ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = "rgba(37,99,235,0.8)"; // #2563eb
+      ctx.fillStyle = "rgba(37,99,235,0.9)"; // #2563eb
       const { x: mx, y: my, active } = mouse.current;
       for (const p of particles) {
         // simple motion
@@ -55,11 +55,11 @@ export default function Particles({ className }: Props) {
           const dx = p.x - mx;
           const dy = p.y - my;
           const d2 = dx * dx + dy * dy;
-          const r = 90;
+          const r = 120;
           if (d2 < r * r) {
             const d = Math.sqrt(d2) || 1;
-            p.vx += (dx / d) * 0.05;
-            p.vy += (dy / d) * 0.05;
+            p.vx += (dx / d) * 0.08;
+            p.vy += (dy / d) * 0.08;
           }
         }
 
@@ -69,7 +69,8 @@ export default function Particles({ className }: Props) {
       }
 
       // light connections
-      ctx.strokeStyle = "rgba(139,92,246,0.2)"; // #8b5cf6
+      ctx.strokeStyle = "rgba(139,92,246,0.25)"; // #8b5cf6
+      ctx.lineWidth = 0.8;
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i];
@@ -77,8 +78,9 @@ export default function Particles({ className }: Props) {
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const d2 = dx * dx + dy * dy;
-          if (d2 < 90 * 90) {
-            ctx.globalAlpha = 1 - d2 / (90 * 90);
+          const maxDistance = 120;
+          if (d2 < maxDistance * maxDistance) {
+            ctx.globalAlpha = (1 - d2 / (maxDistance * maxDistance)) * 0.6;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
