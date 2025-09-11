@@ -42,9 +42,6 @@ export const metadata: Metadata = {
       "フロントエンドエンジニアの実務経験を通じた技術知識発信サイト",
     images: ["/ogp.png"],
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
   themeColor: "#1e293b",
 };
 
