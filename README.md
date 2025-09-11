@@ -23,7 +23,7 @@
 
 ## アセット差し替え（任意）
 
-- `public/profile_image/akira-papa-profile.jpg`（300x300 円形表示）
+- `public/profile_image/sandaga.svg`（300x300 円形表示）
 - `public/ogp.png`（1200x630）
 - `public/favicon.ico`
 

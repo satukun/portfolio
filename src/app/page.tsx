@@ -63,7 +63,7 @@ export default function Home() {
           <div className="profile">
             <div className="avatar-xl" data-reveal>
               <img
-                src="/profile_image/akira-papa-profile.jpg"
+                src="/profile_image/sandaga.svg"
                 alt="YOUSUKE"
                 width={300}
                 height={300}
