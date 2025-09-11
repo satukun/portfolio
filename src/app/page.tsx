@@ -1,39 +1,42 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Particles from "@/components/Particles";
-import TypewriterCode from "@/components/TypewriterCode";
-import ScrollTopButton from "@/components/ScrollTopButton";
-import RevealInit from "@/components/RevealInit";
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import Header from "@/components/common/navigation/Header";
+import Footer from "@/components/common/navigation/Footer";
+import Particles from "@/components/common/animations/Particles";
+import CodeSphere from "@/components/common/animations/CodeSphere";
+import ScrollTopButton from "@/components/common/buttons/ScrollTopButton";
+import RevealInit from "@/components/common/animations/RevealInit";
+import WorksSection from "@/components/features/works/WorksSection";
+import TechStackSlidePanel from "@/components/features/tech-stack/TechStackSlidePanel";
+import SmoothScroll from "@/components/common/navigation/SmoothScroll";
 
-const codeSample = `type AIModel = {
-  name: string
-  provider: 'openai' | 'anthropic' | 'google'
-  tokens: number
-}
-
-export const models: AIModel[] = [
-  { name: 'gpt-4o', provider: 'openai', tokens: 128000 },
-  { name: 'o4-mini', provider: 'openai', tokens: 200000 },
-  { name: 'claude-3-5', provider: 'anthropic', tokens: 200000 }
-]
-
-export function choose(model: string) {
-  return models.find(m => m.name === model)
-}
-`;
 
 export default function Home() {
+  const [isTechStackPanelOpen, setIsTechStackPanelOpen] = useState(false);
+
+  const handleTechStackOpen = () => {
+    setIsTechStackPanelOpen(true);
+  };
+
+  const handleTechStackClose = () => {
+    setIsTechStackPanelOpen(false);
+  };
+
   return (
     <>
       <div className="particles-background">
         <Particles />
       </div>
-      <Header />
+      <Header onTechStackOpen={handleTechStackOpen} />
 
       {/* Hero */}
       <section className="hero" aria-label="ヒーロー">
-        <div className="container hero-grid">
-          <div>
+        <div className="hero-background" aria-hidden>
+          <CodeSphere width={800} height={600} />
+        </div>
+        <div className="container hero-content">
+          <div className="hero-text">
             <h1>
               フロントエンドエンジニアとして
               <br />
@@ -47,16 +50,13 @@ export default function Home() {
               <a className="btn secondary" href="#profile">プロフィールを見る</a>
             </div>
           </div>
-          <div className="hero-vis" aria-hidden>
-            <TypewriterCode code={codeSample} />
-          </div>
         </div>
       </section>
 
       {/* Profile */}
       <section id="profile" className="section-profile">
         <div className="container">
-          <h2 className="section-title" data-reveal="fade-up">プロフィール</h2>
+          <h2 className="section-title" data-reveal="fade-up">Profile</h2>
           <div className="profile">
             <div className="avatar-xl" data-reveal="scale">
               <img
@@ -64,7 +64,7 @@ export default function Home() {
                 alt="YOUSUKE"
                 width={300}
                 height={300}
-                style={{ display: 'block', width: '300px', height: '300px', objectFit: 'cover' }}
+                style={{ display: 'block', width: '300px', height: '300px', objectFit: 'cover',transform:'scale(1.1)' }}
               />
             </div>
             <div>
@@ -105,11 +105,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Works */}
+      <WorksSection />
 
       {/* Posts */}
       <section id="posts">
         <div className="container">
-          <h2 className="section-title" data-reveal="fade-up">最新の記事</h2>
+          <h2 className="section-title" data-reveal="fade-up">Posts</h2>
           <p className="muted" data-reveal="fade-up" style={{ marginBottom: '24px' }}>
             microCMSで管理されたフロントエンド技術に関する記事を配信しています。
           </p>
@@ -145,14 +147,9 @@ export default function Home() {
                 </div>
                  <h3 className="post-title">{post.title}</h3>
                  <p className="post-summary">{post.summary}</p>
-                 {/* <a href="#" className="btn cta">記事を読む</a> */}
+                 <Link href="/blog" className="btn cta">記事を読む</Link>
               </div>
             ))}
-          </div>
-          <div style={{ marginTop: 16 }}>
-            <a className="btn secondary" href="https://twitter.com/intent/follow?screen_name=akira_papa_IT" target="_blank">
-              フォローする
-            </a>
           </div>
         </div>
       </section>
@@ -160,7 +157,7 @@ export default function Home() {
       {/* Follow */}
       <section id="contact">
         <div className="container">
-          <h2 className="section-title" data-reveal="fade-up">YOUSUKEをフォローしよう！</h2>
+          <h2 className="section-title" data-reveal="fade-up">Follow</h2>
           <p className="muted" data-reveal="fade-up">
             フロントエンドの最新技術・開発ノウハウを各プラットフォームで発信中。
           </p>
@@ -180,7 +177,12 @@ export default function Home() {
       <Footer />
       <ScriptTags />
       <RevealInit />
+      <SmoothScroll />
       <ScrollTopButton />
+      <TechStackSlidePanel 
+        isOpen={isTechStackPanelOpen}
+        onClose={handleTechStackClose}
+      />
     </>
   );
 }

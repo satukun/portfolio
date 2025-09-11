@@ -2,9 +2,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import ThemeSwitcher from "./ThemeSwitcher";
+import ThemeSwitcher from "@/components/common/buttons/ThemeSwitcher";
 
-export default function Header() {
+interface HeaderProps {
+  onTechStackOpen?: () => void;
+}
+
+export default function Header({ onTechStackOpen }: HeaderProps = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [pastHero, setPastHero] = useState(false);
   const [open, setOpen] = useState(false);
@@ -43,19 +47,32 @@ export default function Header() {
         </Link>
         <nav className={`nav ${open ? "open" : ""}`}>
           <Link href="#profile" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>person</span>プロフィール
+            <span className="material-symbols-outlined" aria-hidden>person</span>Profile
+          </Link>
+          <Link href="#works" onClick={() => setOpen(false)}>
+            <span className="material-symbols-outlined" aria-hidden>work</span>Works
           </Link>
           <Link href="#posts" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>article</span>記事
+            <span className="material-symbols-outlined" aria-hidden>article</span>Posts
           </Link>
           <Link href="#contact" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>person_add</span>フォロー
+            <span className="material-symbols-outlined" aria-hidden>person_add</span>Follow
           </Link>
           {/* <a className="btn cta" href="#posts" onClick={() => setOpen(false)}>
             記事を読む
           </a> */}
         </nav>
         <div className="header-controls">
+          {onTechStackOpen && (
+            <button
+              className="tech-stack-btn"
+              onClick={onTechStackOpen}
+              title="このサイトの技術スタック"
+              aria-label="技術スタック"
+            >
+              <span className="material-symbols-outlined">code</span>
+            </button>
+          )}
           <ThemeSwitcher />
           <button
             aria-label="メニュー"
