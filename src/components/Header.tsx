@@ -39,9 +39,9 @@ export default function Header() {
           <Link href="#contact" onClick={() => setOpen(false)}>
             <span className="material-symbols-outlined" aria-hidden>person_add</span>フォロー
           </Link>
-          <a className="btn cta" href="#posts" onClick={() => setOpen(false)}>
+          {/* <a className="btn cta" href="#posts" onClick={() => setOpen(false)}>
             記事を読む
-          </a>
+          </a> */}
         </nav>
         <div className="header-controls">
           <ThemeSwitcher />

@@ -17,10 +17,7 @@ export default function Footer() {
               <Link href="#profile">プロフィール</Link>
             </li>
             <li>
-              <Link href="#community">コミュニティ</Link>
-            </li>
-            <li>
-              <Link href="#twitter">ツイート</Link>
+              <Link href="#posts">記事</Link>
             </li>
             <li>
               <Link href="#contact">フォロー</Link>
@@ -34,7 +31,7 @@ export default function Footer() {
               <a href="https://note.com/akira_papa_ai" target="_blank">note</a>
             </li>
             <li>
-              <a href="https://discord.gg/3GJBa9PMZU" target="_blank">Discord</a>
+              <a href="https://github.com/yousuke" target="_blank">GitHub</a>
             </li>
           </ul>
         </div>

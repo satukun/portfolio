@@ -93,9 +93,15 @@ export default function Home() {
                 ))}
               </div>
               <div style={{ marginTop: 14 }} data-reveal>
-                <a className="btn secondary" href="https://note.com/akira_papa_ai" target="_blank">note</a>
+                <a className="btn secondary icon-btn" href="https://note.com/akira_papa_ai" target="_blank" title="note">
+                  <span className="material-symbols-outlined">article</span>
+                  note
+                </a>
                 <span style={{ display: "inline-block", width: 8 }} />
-                <a className="btn primary" href="https://github.com/yousuke" target="_blank">GitHub</a>
+                <a className="btn primary icon-btn" href="https://github.com/yousuke" target="_blank" title="GitHub">
+                  <span className="material-symbols-outlined">code</span>
+                  GitHub
+                </a>
               </div>
             </div>
           </div>
@@ -140,9 +146,9 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <h3 className="post-title">{post.title}</h3>
-                <p className="post-summary">{post.summary}</p>
-                <a href="#" className="post-link">記事を読む →</a>
+                 <h3 className="post-title">{post.title}</h3>
+                 <p className="post-summary">{post.summary}</p>
+                 {/* <a href="#" className="btn cta">記事を読む</a> */}
               </div>
             ))}
           </div>
