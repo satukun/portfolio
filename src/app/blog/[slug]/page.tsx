@@ -7,9 +7,9 @@ import BlogContent from '@/components/features/blog/BlogContent';
 import { microCMSClient } from '@/lib/utils';
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // 静的パラメータの生成（オプション）
@@ -32,7 +32,8 @@ export async function generateStaticParams() {
 
 // メタデータの生成
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = await microCMSClient.getBlogPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await microCMSClient.getBlogPostBySlug(slug);
   
   if (!post) {
     return {
@@ -61,7 +62,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await microCMSClient.getBlogPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await microCMSClient.getBlogPostBySlug(slug);
 
   if (!post || !post.isPublished) {
     notFound();
