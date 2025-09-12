@@ -2,9 +2,10 @@ import { BlogPost, BlogListQuery, MicroCMSListResponse } from '@/lib/types';
 
 const API_KEY = process.env.MICROCMS_API_KEY;
 const SERVICE_DOMAIN = process.env.MICROCMS_SERVICE_DOMAIN;
-const BASE_URL = `https://${SERVICE_DOMAIN}.microcms.io/api/v1`;
+const HAS_ENV = Boolean(API_KEY && SERVICE_DOMAIN);
+const BASE_URL = HAS_ENV ? `https://${SERVICE_DOMAIN}.microcms.io/api/v1` : '';
 
-if (!API_KEY || !SERVICE_DOMAIN) {
+if (!HAS_ENV) {
   console.warn('MicroCMS environment variables are not set');
 }
 
@@ -21,6 +22,15 @@ export class MicroCMSClient {
 
   // ブログ記事一覧を取得
   async getBlogPosts(query?: BlogListQuery): Promise<MicroCMSListResponse<BlogPost>> {
+    if (!HAS_ENV) {
+      // Build/preview 時に ENV 未設定でも失敗させない
+      return {
+        contents: [],
+        totalCount: 0,
+        offset: 0,
+        limit: Number(query?.limit ?? 10),
+      };
+    }
     const params = new URLSearchParams();
     
     if (query) {
@@ -45,7 +55,7 @@ export class MicroCMSClient {
 
       return await response.json();
     } catch (error) {
-      console.error('Failed to fetch blog posts:', error);
+      console.warn('Failed to fetch blog posts:', error);
       // フォールバック: 空のレスポンスを返す
       return {
         contents: [],
@@ -58,6 +68,7 @@ export class MicroCMSClient {
 
   // 個別のブログ記事を取得
   async getBlogPost(contentId: string): Promise<BlogPost | null> {
+    if (!HAS_ENV) return null;
     const url = `${BASE_URL}/blog/${contentId}`;
     
     try {
@@ -75,7 +86,7 @@ export class MicroCMSClient {
 
       return await response.json();
     } catch (error) {
-      console.error('Failed to fetch blog post:', error);
+      console.warn('Failed to fetch blog post:', error);
       return null;
     }
   }

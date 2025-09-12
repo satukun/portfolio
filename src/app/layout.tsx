@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -42,6 +42,9 @@ export const metadata: Metadata = {
       "フロントエンドエンジニアの実務経験を通じた技術知識発信サイト",
     images: ["/ogp.png"],
   },
+};
+
+export const viewport: Viewport = {
   themeColor: "#1e293b",
 };
 
