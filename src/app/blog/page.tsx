@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import Header from '@/components/common/navigation/Header';
 import Footer from '@/components/common/navigation/Footer';
 import BlogList from '@/components/features/blog/BlogList';
+import BlogSidebar from '@/components/features/blog/BlogSidebar';
 import { microCMSClient } from '@/lib/utils';
 
 export const metadata: Metadata = {
@@ -76,9 +77,20 @@ export default async function BlogPage() {
         {/* ブログ記事一覧 */}
         <section className="blog-section">
           <div className="container">
-            <Suspense fallback={<BlogLoading />}>
-              <BlogList posts={posts} />
-            </Suspense>
+            <div className="blog-layout">
+              {/* メインコンテンツ */}
+              <main className="blog-main">
+                <Suspense fallback={<BlogLoading />}>
+                  <BlogList posts={posts} />
+                </Suspense>
+              </main>
+              
+              {/* サイドバー */}
+              <BlogSidebar className="blog-sidebar-desktop" />
+            </div>
+            
+            {/* モバイル用サイドバー */}
+            <BlogSidebar className="blog-sidebar-mobile" />
           </div>
         </section>
       </main>

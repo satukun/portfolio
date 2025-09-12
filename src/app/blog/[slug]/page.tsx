@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Header from '@/components/common/navigation/Header';
 import Footer from '@/components/common/navigation/Footer';
 import BlogContent from '@/components/features/blog/BlogContent';
+import BlogSidebar from '@/components/features/blog/BlogSidebar';
 import { microCMSClient } from '@/lib/utils';
 
 interface BlogPostPageProps {
@@ -118,17 +119,28 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* 記事コンテンツ */}
         <section className="blog-post-section">
           <div className="container">
-            <div className="blog-post-container">
-              <BlogContent post={post} />
+            <div className="blog-layout">
+              {/* メインコンテンツ */}
+              <main className="blog-main">
+                <div className="blog-post-container">
+                  <BlogContent post={post} />
+                  
+                  {/* ナビゲーション */}
+                  <div className="blog-post-navigation">
+                    <Link href="/blog" className="btn secondary">
+                      <span className="material-symbols-outlined">arrow_back</span>
+                      記事一覧に戻る
+                    </Link>
+                  </div>
+                </div>
+              </main>
               
-              {/* ナビゲーション */}
-              <div className="blog-post-navigation">
-                <Link href="/blog" className="btn secondary">
-                  <span className="material-symbols-outlined">arrow_back</span>
-                  記事一覧に戻る
-                </Link>
-              </div>
+              {/* サイドバー */}
+              <BlogSidebar className="blog-sidebar-desktop" />
             </div>
+            
+            {/* モバイル用サイドバー */}
+            <BlogSidebar className="blog-sidebar-mobile" />
           </div>
         </section>
 

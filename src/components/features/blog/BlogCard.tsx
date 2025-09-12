@@ -10,10 +10,9 @@ interface BlogCardProps {
 export default function BlogCard({ post }: BlogCardProps) {
   
   return (
-    <article className="blog-card">
+    <article className="blog-card" data-reveal="scale">
       <Link href={`/blog/${post.slug}`} className="blog-card-link">
-        {/* 一時的にサムネイル表示をコメントアウト */}
-        {/* {post.thumbnail && (
+        {post.thumbnail && (
           <div className="blog-card-thumbnail">
             <Image
               src={post.thumbnail.url}
@@ -27,15 +26,14 @@ export default function BlogCard({ post }: BlogCardProps) {
               }}
             />
           </div>
-        )} */}
+        )}
         
         <div className="blog-card-content">
           <div className="blog-card-meta">
             <time className="blog-card-date">
               {formatDateShort(post.publishedAt || post.createdAt)}
             </time>
-            {/* 一時的にタグ表示をコメントアウト */}
-            {/* {post.tags && post.tags.length > 0 && (
+            {post.tags && post.tags.length > 0 && (
               <div className="blog-card-tags">
                 {post.tags.slice(0, 2).map((tag) => (
                   <span key={tag.id} className="blog-tag" style={{ backgroundColor: tag.color }}>
@@ -46,7 +44,7 @@ export default function BlogCard({ post }: BlogCardProps) {
                   <span className="blog-tag more">+{post.tags.length - 2}</span>
                 )}
               </div>
-            )} */}
+            )}
           </div>
           
           <h3 className="blog-card-title">{post.title}</h3>

@@ -738,7 +738,66 @@ section { padding: 60px 0; position: relative; }
   transform: translateX(4px);
 }
 
+/* Blog Layout with Sidebar */
+.blog-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+  align-items: start;
+}
+
+.blog-main {
+  min-width: 0; /* グリッドアイテムのオーバーフロー防止 */
+}
+
+.blog-sidebar-desktop {
+  position: sticky;
+  top: 80px; /* ヘッダーの高さ分オフセット */
+  height: fit-content;
+}
+
+.blog-sidebar-mobile {
+  display: none;
+}
+
+/* ブログ記事グリッドを2列に変更 */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+@media (max-width: 1024px) {
+  .blog-layout {
+    grid-template-columns: 1fr 280px;
+    gap: 32px;
+  }
+  
+  .blog-sidebar-desktop {
+    top: 70px;
+  }
+}
+
 @media (max-width: 768px) {
+  .blog-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .blog-sidebar-desktop {
+    display: none;
+  }
+  
+  .blog-sidebar-mobile {
+    display: block;
+    margin-top: 40px;
+  }
+  
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+  
   .posts-grid {
     grid-template-columns: 1fr;
   }
@@ -2137,6 +2196,195 @@ section { padding: 60px 0; position: relative; }
     grid-template-columns: 1fr;
     gap: 24px;
   }
+}
+
+/* Blog Sidebar Styles */
+.blog-sidebar {
+  background: color-mix(in oklab, var(--color-bg) 98%, var(--color-primary));
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--color-primary) 10%, transparent);
+  overflow: hidden;
+}
+
+.sidebar-section {
+  padding: 24px;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-primary) 8%, transparent);
+}
+
+.sidebar-section:last-child {
+  border-bottom: none;
+}
+
+.sidebar-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--color-fg);
+}
+
+/* Search Box */
+.search-box {
+  display: flex;
+  border: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: var(--color-primary);
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  color: var(--color-fg);
+}
+
+.search-input::placeholder {
+  color: color-mix(in oklab, var(--color-fg) 60%, transparent);
+}
+
+.search-btn {
+  padding: 12px 16px;
+  border: none;
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-btn:hover {
+  background: color-mix(in oklab, var(--color-primary) 90%, black);
+}
+
+/* Recent Posts */
+.recent-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.recent-post {
+  display: block;
+  padding: 12px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--color-bg) 95%, var(--color-primary));
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.recent-post:hover {
+  background: color-mix(in oklab, var(--color-bg) 90%, var(--color-primary));
+  transform: translateX(4px);
+}
+
+.recent-post-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-fg);
+  margin-bottom: 8px;
+}
+
+.recent-post-date {
+  font-size: 0.8rem;
+  color: color-mix(in oklab, var(--color-fg) 70%, transparent);
+}
+
+/* Category List */
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: var(--color-fg);
+}
+
+.category-item:hover {
+  background: color-mix(in oklab, var(--color-bg) 90%, var(--color-primary));
+  transform: translateX(2px);
+}
+
+.category-name {
+  font-weight: 500;
+}
+
+.category-count {
+  font-size: 0.85rem;
+  color: color-mix(in oklab, var(--color-fg) 60%, transparent);
+}
+
+/* Tag Cloud */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  background: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.tag-item:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.tag-count {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Archive List */
+.archive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.archive-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: var(--color-fg);
+  font-size: 0.9rem;
+}
+
+.archive-item:hover {
+  background: color-mix(in oklab, var(--color-bg) 90%, var(--color-primary));
+}
+
+.archive-count {
+  font-size: 0.8rem;
+  color: color-mix(in oklab, var(--color-fg) 60%, transparent);
+}
   
   .blog-card-content {
     padding: 20px;
