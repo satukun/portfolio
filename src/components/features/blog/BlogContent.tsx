@@ -36,20 +36,20 @@ export default function BlogContent({ post }: BlogContentProps) {
           <p className="blog-excerpt">{post.excerpt}</p>
         )}
         
-        {post.author && (
+        {post.authorName && (
           <div className="blog-author">
-            {post.author.avatar && (
+            {post.authorAvatar && (
               <div className="blog-author-avatar">
                 <Image
-                  src={post.author.avatar.url}
-                  alt={post.author.name}
+                  src={post.authorAvatar.url}
+                  alt={post.authorName}
                   width={40}
                   height={40}
                   style={{ borderRadius: '50%' }}
                 />
               </div>
             )}
-            <span className="blog-author-name">by {post.author.name}</span>
+            <span className="blog-author-name">by {post.authorName}</span>
           </div>
         )}
       </header>

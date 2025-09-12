@@ -8,7 +8,6 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post }: BlogCardProps) {
-  console.log('Rendering BlogCard for:', post.title, post);
   
   return (
     <article className="blog-card">
