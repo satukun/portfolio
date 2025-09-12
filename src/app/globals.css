@@ -2385,42 +2385,6 @@ section { padding: 60px 0; position: relative; }
   font-size: 0.8rem;
   color: color-mix(in oklab, var(--color-fg) 60%, transparent);
 }
-  
-  .blog-card-content {
-    padding: 20px;
-  }
-  
-  .blog-header {
-    padding: 32px 24px;
-  }
-  
-  .blog-body {
-    padding: 32px 24px;
-  }
-  
-  .blog-footer {
-    padding: 24px;
-  }
-  
-  .blog-title {
-    font-size: 1.75rem;
-  }
-  
-  .blog-card-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  
-  .related-posts-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .not-found-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-}
 
 /* Responsive Styles for Works */
 @media (max-width: 1400px) {
