@@ -39,23 +39,23 @@ export default function Header({ onTechStackOpen }: HeaderProps = {}) {
   return (
     <header className={`header ${scrolled ? "is-scrolled" : ""} ${pastHero ? "past-hero" : ""}`}>
       <div className="container header-inner">
-        <Link href="#" className="brand" onClick={() => setOpen(false)}>
+        <Link href="/" className="brand" onClick={() => setOpen(false)}>
           <span className="brand-avatar">
             <img src="/profile_image/sandaga.svg" alt="YOUSUKE" width={32} height={32} />
           </span>
           <span className="brand-text">YOUSUKE</span>
         </Link>
         <nav className={`nav ${open ? "open" : ""}`}>
-          <Link href="#profile" onClick={() => setOpen(false)}>
+          <Link href="/#profile" onClick={() => setOpen(false)}>
             <span className="material-symbols-outlined" aria-hidden>person</span>Profile
           </Link>
-          <Link href="#works" onClick={() => setOpen(false)}>
+          <Link href="/#works" onClick={() => setOpen(false)}>
             <span className="material-symbols-outlined" aria-hidden>work</span>Works
           </Link>
-          <Link href="#posts" onClick={() => setOpen(false)}>
+          <Link href="/#posts" onClick={() => setOpen(false)}>
             <span className="material-symbols-outlined" aria-hidden>article</span>Posts
           </Link>
-          <Link href="#contact" onClick={() => setOpen(false)}>
+          <Link href="/#contact" onClick={() => setOpen(false)}>
             <span className="material-symbols-outlined" aria-hidden>person_add</span>Follow
           </Link>
           {/* <a className="btn cta" href="#posts" onClick={() => setOpen(false)}>

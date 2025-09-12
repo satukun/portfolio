@@ -39,10 +39,22 @@ function BlogLoading() {
 
 // ブログ記事一覧を取得
 async function getBlogPosts() {
+  // 一時的にフィルタを外してテスト
   const response = await microCMSClient.getBlogPosts({
     limit: 12,
-    orders: '-publishedAt',
-    filters: 'isPublished[equals]true'
+    orders: '-publishedAt'
+    // filters: 'isPublished[equals]true'  // 一時的にコメントアウト
+  });
+  
+  console.log('Blog posts response:', {
+    totalCount: response.totalCount,
+    contentsLength: response.contents.length,
+    contents: response.contents,
+    firstPost: response.contents[0] ? {
+      ...response.contents[0],
+      tags: response.contents[0].tags,
+      category: response.contents[0].category
+    } : null
   });
   
   return response.contents;
@@ -50,6 +62,8 @@ async function getBlogPosts() {
 
 export default async function BlogPage() {
   const posts = await getBlogPosts();
+  
+  console.log('Posts passed to BlogList:', posts.length);
 
   return (
     <>

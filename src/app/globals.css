@@ -690,6 +690,54 @@ section { padding: 60px 0; position: relative; }
 
 /* post-link styles removed - now using .btn secondary */
 
+/* More Posts Button */
+.posts-more {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.more-posts-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.more-posts-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s;
+}
+
+.more-posts-btn:hover::before {
+  left: 100%;
+}
+
+.more-posts-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.more-posts-btn .material-symbols-outlined {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.more-posts-btn:hover .material-symbols-outlined {
+  transform: translateX(4px);
+}
+
 @media (max-width: 768px) {
   .posts-grid {
     grid-template-columns: 1fr;

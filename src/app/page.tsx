@@ -151,6 +151,14 @@ export default function Home() {
               </div>
             ))}
           </div>
+          
+          {/* More Posts Button */}
+          <div className="posts-more" style={{ textAlign: 'center', marginTop: '32px' }}>
+            <Link href="/blog" className="btn secondary more-posts-btn" data-reveal="fade-up">
+              <span className="material-symbols-outlined" aria-hidden>arrow_forward</span>
+              More Posts
+            </Link>
+          </div>
         </div>
       </section>
 

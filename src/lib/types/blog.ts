@@ -22,12 +22,16 @@ export interface BlogPost extends MicroCMSDate {
   category?: BlogCategory;
   isPublished: boolean;
   publishDate?: string;
-  author?: {
-    name: string;
-    avatar?: {
-      url: string;
-    };
+  // 方法1: 個別フィールド
+  authorName?: string;
+  authorAvatar?: {
+    url: string;
+    width?: number;
+    height?: number;
   };
+  
+  // 方法2: 著者API参照 (どちらか一つを選択)
+  // author?: BlogAuthor;
 }
 
 // タグの型定義
@@ -52,6 +56,18 @@ export interface MicroCMSListResponse<T> {
   totalCount: number;
   offset: number;
   limit: number;
+}
+
+// 著者の型定義（方法2を選ぶ場合）
+export interface BlogAuthor extends MicroCMSDate {
+  id: string;
+  name: string;
+  avatar?: {
+    url: string;
+    width?: number;
+    height?: number;
+  };
+  bio?: string;
 }
 
 // ブログ記事一覧のクエリパラメータ

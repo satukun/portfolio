@@ -46,7 +46,7 @@ export class MicroCMSClient {
     try {
       const response = await fetch(url, {
         headers: this.headers,
-        next: { revalidate: 60 } // 1分間キャッシュ
+        next: { revalidate: 300 } // 5分間キャッシュ（Webhook連携時）
       });
 
       if (!response.ok) {
@@ -74,7 +74,7 @@ export class MicroCMSClient {
     try {
       const response = await fetch(url, {
         headers: this.headers,
-        next: { revalidate: 60 } // 1分間キャッシュ
+        next: { revalidate: 300 } // 5分間キャッシュ（Webhook連携時）
       });
 
       if (!response.ok) {

@@ -14,6 +14,8 @@ export default function BlogList({
   onLoadMore, 
   loading = false 
 }: BlogListProps) {
+  console.log('BlogList received posts:', posts.length, posts);
+  
   if (posts.length === 0) {
     return (
       <div className="blog-empty">
