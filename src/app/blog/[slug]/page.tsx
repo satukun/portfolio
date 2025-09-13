@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Header from '@/components/common/navigation/Header';
-import Footer from '@/components/common/navigation/Footer';
+import Header from '@/components/layouts/Header';
+import Footer from '@/components/layouts/Footer';
 import BlogContent from '@/components/features/blog/BlogContent';
 import BlogSidebar from '@/components/features/blog/BlogSidebar';
 import RevealInit from '@/components/common/animations/RevealInit';

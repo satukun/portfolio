@@ -42,7 +42,7 @@ export class WorksDAL extends MicroCMSBaseClient {
 
   /**
    * 注目Works（トップページ用）を取得
-   * isFeatured=true または最新3件を取得
+   * isFeatured=true のプロジェクトを優先表示、不足分は最新で補完
    */
   async getFeaturedWorks(limit: number = 3): Promise<WorkItem[]> {
     if (!MicroCMSBaseClient.hasEnvironment()) {
@@ -51,32 +51,34 @@ export class WorksDAL extends MicroCMSBaseClient {
     }
 
     try {
-      // まず注目プロジェクトを取得
+      // 1. まずisFeatured=trueの注目プロジェクトを取得
       const featuredWorksRaw = await this.getWithFilters<MicroCMSWorkItem>(
         this.endpoint,
         'isPublished[equals]true[and]isFeatured[equals]true',
         { 
           limit,
-          orders: 'order'
+          orders: '-publishedAt,-createdAt' // 公開日時順、作成日時順
         }
       );
       const featuredWorks = featuredWorksRaw.map(convertMicroCMSWork);
 
-      // 注目プロジェクトが不足している場合、最新のものを追加
+      // 2. 注目プロジェクトが不足している場合、最新のプロジェクトで補完
       if (featuredWorks.length < limit) {
         const latestWorksRaw = await this.getWithFilters<MicroCMSWorkItem>(
           this.endpoint,
           'isPublished[equals]true',
           { 
-            limit: limit - featuredWorks.length,
-            orders: '-createdAt'
+            limit: limit * 2, // 余裕を持って取得
+            orders: '-publishedAt,-createdAt'
           }
         );
         const latestWorks = latestWorksRaw.map(convertMicroCMSWork);
-
-        // 重複を除いて結合
+        
+        // 3. 重複を除いて不足分を補完
         const featuredIds = new Set(featuredWorks.map(w => w.id));
-        const additionalWorks = latestWorks.filter(w => !featuredIds.has(w.id));
+        const additionalWorks = latestWorks
+          .filter(w => !featuredIds.has(w.id))
+          .slice(0, limit - featuredWorks.length);
         
         return [...featuredWorks, ...additionalWorks].slice(0, limit);
       }

@@ -1,18 +1,9 @@
-// MicroCMS用の基本型
-export interface MicroCMSDate {
-  createdAt: string;
-  updatedAt: string;
-  publishedAt?: string;
-  revisedAt?: string;
-}
+import { BaseContent, BaseEntity, APIQueryParams } from './common';
 
 // ブログ記事の型定義
-export interface BlogPost extends MicroCMSDate {
-  id: string;
-  title: string;
+export interface BlogPost extends BaseContent {
   content: string;
   excerpt?: string;
-  slug: string;
   thumbnail?: {
     url: string;
     width?: number;
@@ -20,7 +11,6 @@ export interface BlogPost extends MicroCMSDate {
   };
   tags?: BlogTag[];
   category?: BlogCategory;
-  isPublished: boolean;
   publishDate?: string;
   // 方法1: 個別フィールド
   authorName?: string;
@@ -35,32 +25,23 @@ export interface BlogPost extends MicroCMSDate {
 }
 
 // タグの型定義
-export interface BlogTag extends MicroCMSDate {
-  id: string;
+export interface BlogTag extends BaseEntity {
   name: string;
   slug: string;
   color?: string;
 }
 
 // カテゴリの型定義
-export interface BlogCategory extends MicroCMSDate {
-  id: string;
+export interface BlogCategory extends BaseEntity {
   name: string;
   slug: string;
   description?: string;
 }
 
-// MicroCMS APIレスポンス型
-export interface MicroCMSListResponse<T> {
-  contents: T[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-}
+// MicroCMSListResponseは共通型APIResponseを使用
 
 // 著者の型定義（方法2を選ぶ場合）
-export interface BlogAuthor extends MicroCMSDate {
-  id: string;
+export interface BlogAuthor extends BaseEntity {
   name: string;
   avatar?: {
     url: string;
@@ -70,14 +51,7 @@ export interface BlogAuthor extends MicroCMSDate {
   bio?: string;
 }
 
-// ブログ記事一覧のクエリパラメータ
-export interface BlogListQuery {
-  limit?: number;
-  offset?: number;
-  orders?: string;
-  q?: string;
-  fields?: string;
+// BlogListQueryは共通型APIQueryParamsを使用
+export interface BlogListQuery extends APIQueryParams {
   ids?: string;
-  filters?: string;
-  depth?: number;
 }
