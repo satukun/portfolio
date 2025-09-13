@@ -1,5 +1,5 @@
 import { MicroCMSBaseClient } from '../microcms-client';
-import { BlogPost, BlogListQuery, MicroCMSListResponse } from '@/lib/types';
+import { BlogPost, BlogListQuery, APIResponse } from '@/lib/types';
 
 /**
  * ブログ記事データアクセス層
@@ -12,7 +12,7 @@ export class BlogDAL extends MicroCMSBaseClient {
   /**
    * ブログ記事一覧を取得
    */
-  async getBlogPosts(query?: BlogListQuery): Promise<MicroCMSListResponse<BlogPost>> {
+  async getBlogPosts(query?: BlogListQuery): Promise<APIResponse<BlogPost>> {
     if (!MicroCMSBaseClient.hasEnvironment()) {
       return {
         contents: [],
@@ -33,7 +33,7 @@ export class BlogDAL extends MicroCMSBaseClient {
         });
       }
 
-      return await this.get<MicroCMSListResponse<BlogPost>>(this.endpoint, params);
+      return await this.get<APIResponse<BlogPost>>(this.endpoint, params);
     } catch (error) {
       console.warn('Failed to fetch blog posts:', error);
       return {

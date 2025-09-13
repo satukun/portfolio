@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { BlogPost } from '@/lib/types';
-import { formatDateShort } from '@/dal';
+import { formatDateShort } from '@/lib/utils';
 
 interface BlogCardProps {
   post: BlogPost;

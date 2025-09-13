@@ -42,42 +42,43 @@ export class WorksDAL extends MicroCMSBaseClient {
 
   /**
    * 注目Works（トップページ用）を取得
-   * isFeatured=true または最新3件を取得
+   * isFeatured=true のプロジェクトを優先表示、不足分は最新で補完
    */
   async getFeaturedWorks(limit: number = 3): Promise<WorkItem[]> {
     if (!MicroCMSBaseClient.hasEnvironment()) {
-      // 環境変数未設定時はサンプルデータを返す
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks.slice(0, limit);
+      // 環境変数未設定時は空配列を返す
+      return [];
     }
 
     try {
-      // まず注目プロジェクトを取得
+      // 1. まずisFeatured=trueの注目プロジェクトを取得
       const featuredWorksRaw = await this.getWithFilters<MicroCMSWorkItem>(
         this.endpoint,
         'isPublished[equals]true[and]isFeatured[equals]true',
         { 
           limit,
-          orders: 'order'
+          orders: '-publishedAt,-createdAt' // 公開日時順、作成日時順
         }
       );
       const featuredWorks = featuredWorksRaw.map(convertMicroCMSWork);
 
-      // 注目プロジェクトが不足している場合、最新のものを追加
+      // 2. 注目プロジェクトが不足している場合、最新のプロジェクトで補完
       if (featuredWorks.length < limit) {
         const latestWorksRaw = await this.getWithFilters<MicroCMSWorkItem>(
           this.endpoint,
           'isPublished[equals]true',
           { 
-            limit: limit - featuredWorks.length,
-            orders: '-createdAt'
+            limit: limit * 2, // 余裕を持って取得
+            orders: '-publishedAt,-createdAt'
           }
         );
         const latestWorks = latestWorksRaw.map(convertMicroCMSWork);
-
-        // 重複を除いて結合
+        
+        // 3. 重複を除いて不足分を補完
         const featuredIds = new Set(featuredWorks.map(w => w.id));
-        const additionalWorks = latestWorks.filter(w => !featuredIds.has(w.id));
+        const additionalWorks = latestWorks
+          .filter(w => !featuredIds.has(w.id))
+          .slice(0, limit - featuredWorks.length);
         
         return [...featuredWorks, ...additionalWorks].slice(0, limit);
       }
@@ -85,9 +86,8 @@ export class WorksDAL extends MicroCMSBaseClient {
       return featuredWorks;
     } catch (error) {
       console.warn('Failed to fetch featured works:', error);
-      // フォールバック: サンプルデータを返す
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks.slice(0, limit);
+      // フォールバック: 空配列を返す  
+      return [];
     }
   }
 
@@ -96,8 +96,8 @@ export class WorksDAL extends MicroCMSBaseClient {
    */
   async getAllWorks(): Promise<WorkItem[]> {
     if (!MicroCMSBaseClient.hasEnvironment()) {
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks;
+      // 環境変数未設定時は空配列を返す
+      return [];
     }
 
     try {
@@ -112,8 +112,7 @@ export class WorksDAL extends MicroCMSBaseClient {
       return worksRaw.map(convertMicroCMSWork);
     } catch (error) {
       console.warn('Failed to fetch all works:', error);
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks;
+      return [];
     }
   }
 
@@ -122,8 +121,7 @@ export class WorksDAL extends MicroCMSBaseClient {
    */
   async getWorksByType(type: string): Promise<WorkItem[]> {
     if (!MicroCMSBaseClient.hasEnvironment()) {
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks.filter(work => work.type === type);
+      return [];
     }
 
     try {
@@ -138,8 +136,7 @@ export class WorksDAL extends MicroCMSBaseClient {
       return worksRaw.map(convertMicroCMSWork);
     } catch (error) {
       console.warn(`Failed to fetch works by type: ${type}`, error);
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks.filter(work => work.type === type);
+      return [];
     }
   }
 
@@ -148,8 +145,7 @@ export class WorksDAL extends MicroCMSBaseClient {
    */
   async getWorksByYear(year: string): Promise<WorkItem[]> {
     if (!MicroCMSBaseClient.hasEnvironment()) {
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks.filter(work => work.year === year);
+      return [];
     }
 
     try {
@@ -163,8 +159,7 @@ export class WorksDAL extends MicroCMSBaseClient {
       );
     } catch (error) {
       console.warn(`Failed to fetch works by year: ${year}`, error);
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks.filter(work => work.year === year);
+      return [];
     }
   }
 
@@ -173,8 +168,7 @@ export class WorksDAL extends MicroCMSBaseClient {
    */
   async getWorksByCategory(category: string): Promise<WorkItem[]> {
     if (!MicroCMSBaseClient.hasEnvironment()) {
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks.filter(work => work.category === category);
+      return [];
     }
 
     try {
@@ -188,8 +182,7 @@ export class WorksDAL extends MicroCMSBaseClient {
       );
     } catch (error) {
       console.warn(`Failed to fetch works by category: ${category}`, error);
-      const { sampleWorks } = await import('@/lib/constants');
-      return sampleWorks.filter(work => work.category === category);
+      return [];
     }
   }
 

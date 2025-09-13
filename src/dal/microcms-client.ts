@@ -1,4 +1,4 @@
-import { MicroCMSListResponse } from '@/lib/types';
+import { APIResponse } from '@/lib/types';
 
 const API_KEY = process.env.MICROCMS_API_KEY;
 const SERVICE_DOMAIN = process.env.MICROCMS_SERVICE_DOMAIN;
@@ -67,7 +67,7 @@ export class MicroCMSBaseClient {
     }
 
     try {
-      const response = await this.get<MicroCMSListResponse<T>>(endpoint, {
+      const response = await this.get<APIResponse<T>>(endpoint, {
         limit: 100, // 最大取得数
         ...params
       });
@@ -107,7 +107,7 @@ export class MicroCMSBaseClient {
     }
 
     try {
-      const response = await this.get<MicroCMSListResponse<T>>(endpoint, {
+      const response = await this.get<APIResponse<T>>(endpoint, {
         filters,
         ...params
       });

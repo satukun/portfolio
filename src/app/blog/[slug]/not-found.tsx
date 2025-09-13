@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Header from '@/components/common/navigation/Header';
-import Footer from '@/components/common/navigation/Footer';
+import Header from '@/components/layouts/Header';
+import Footer from '@/components/layouts/Footer';
 
 export default function BlogNotFound() {
   return (

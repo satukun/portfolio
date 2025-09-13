@@ -1,13 +1,13 @@
 import Link from "next/link";
-import Header from "@/components/common/navigation/Header";
-import Footer from "@/components/common/navigation/Footer";
+import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
 import Particles from "@/components/common/animations/Particles";
 import CodeSphere from "@/components/common/animations/CodeSphere";
 import ScrollTopButton from "@/components/common/buttons/ScrollTopButton";
 import RevealInit from "@/components/common/animations/RevealInit";
 import WorksSection from "@/components/features/works/WorksSection";
 import TechStackSection from "@/components/features/tech-stack/TechStackSection";
-import SmoothScroll from "@/components/common/navigation/SmoothScroll";
+import SmoothScroll from "@/components/layouts/SmoothScroll";
 
 export default function Home() {
 

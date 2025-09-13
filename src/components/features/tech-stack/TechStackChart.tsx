@@ -1,6 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from 'react';
 
+interface TechStackChartProps {
+  onTechStackOpen?: () => void;
+}
+
 interface TechSkill {
   name: string;
   level: number; // 0-100
@@ -20,7 +24,7 @@ const techSkills: TechSkill[] = [
   { name: 'Three.js', level: 65, category: 'frontend' }
 ];
 
-export default function TechStackChart() {
+export default function TechStackChart({ onTechStackOpen }: TechStackChartProps = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
