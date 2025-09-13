@@ -42,7 +42,7 @@ function BlogLoading() {
 // ブログ記事一覧を取得
 async function getBlogPosts() {
   const response = await dal.blog.getBlogPosts({
-    limit: 12,
+    limit: 8,
     orders: '-publishedAt',
     filters: 'isPublished[equals]true'
   });
