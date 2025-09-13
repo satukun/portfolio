@@ -5,7 +5,8 @@ import Header from '@/components/common/navigation/Header';
 import Footer from '@/components/common/navigation/Footer';
 import BlogContent from '@/components/features/blog/BlogContent';
 import BlogSidebar from '@/components/features/blog/BlogSidebar';
-import { microCMSClient } from '@/lib/utils';
+import RevealInit from '@/components/common/animations/RevealInit';
+import { dal } from '@/dal';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -16,7 +17,7 @@ interface BlogPostPageProps {
 // 静的パラメータの生成（オプション）
 export async function generateStaticParams() {
   try {
-    const response = await microCMSClient.getBlogPosts({
+    const response = await dal.blog.getBlogPosts({
       limit: 100,
       fields: 'slug',
       filters: 'isPublished[equals]true'
@@ -34,7 +35,7 @@ export async function generateStaticParams() {
 // メタデータの生成
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await microCMSClient.getBlogPostBySlug(slug);
+  const post = await dal.blog.getBlogPostBySlug(slug);
   
   if (!post) {
     return {
@@ -64,7 +65,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = await microCMSClient.getBlogPostBySlug(slug);
+  const post = await dal.blog.getBlogPostBySlug(slug);
 
   if (!post || !post.isPublished) {
     notFound();
@@ -79,7 +80,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       .join('[or]');
     
     try {
-      const response = await microCMSClient.getBlogPosts({
+      const response = await dal.blog.getBlogPosts({
         limit: 3,
         filters: `${tagFilters}[and]id[not_equals]${post.id}[and]isPublished[equals]true`,
         orders: '-publishedAt'
@@ -180,6 +181,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </main>
       
       <Footer />
+      <RevealInit />
     </>
   );
 }

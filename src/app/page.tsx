@@ -1,5 +1,3 @@
-"use client";
-import { useState } from "react";
 import Link from "next/link";
 import Header from "@/components/common/navigation/Header";
 import Footer from "@/components/common/navigation/Footer";
@@ -8,27 +6,17 @@ import CodeSphere from "@/components/common/animations/CodeSphere";
 import ScrollTopButton from "@/components/common/buttons/ScrollTopButton";
 import RevealInit from "@/components/common/animations/RevealInit";
 import WorksSection from "@/components/features/works/WorksSection";
-import TechStackSlidePanel from "@/components/features/tech-stack/TechStackSlidePanel";
+import TechStackSection from "@/components/features/tech-stack/TechStackSection";
 import SmoothScroll from "@/components/common/navigation/SmoothScroll";
 
-
 export default function Home() {
-  const [isTechStackPanelOpen, setIsTechStackPanelOpen] = useState(false);
-
-  const handleTechStackOpen = () => {
-    setIsTechStackPanelOpen(true);
-  };
-
-  const handleTechStackClose = () => {
-    setIsTechStackPanelOpen(false);
-  };
 
   return (
     <>
       <div className="particles-background">
         <Particles />
       </div>
-      <Header onTechStackOpen={handleTechStackOpen} />
+      <Header />
 
       {/* Hero */}
       <section className="hero" aria-label="ヒーロー">
@@ -104,6 +92,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Tech Stack */}
+      <TechStackSection />
 
       {/* Works */}
       <WorksSection />
@@ -187,10 +178,6 @@ export default function Home() {
       <RevealInit />
       <SmoothScroll />
       <ScrollTopButton />
-      <TechStackSlidePanel 
-        isOpen={isTechStackPanelOpen}
-        onClose={handleTechStackClose}
-      />
     </>
   );
 }

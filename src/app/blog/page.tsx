@@ -1,10 +1,11 @@
-import { Suspense } from 'react';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import Header from '@/components/common/navigation/Header';
 import Footer from '@/components/common/navigation/Footer';
 import BlogList from '@/components/features/blog/BlogList';
 import BlogSidebar from '@/components/features/blog/BlogSidebar';
-import { microCMSClient } from '@/lib/utils';
+import RevealInit from '@/components/common/animations/RevealInit';
+import { dal } from '@/dal';
 
 export const metadata: Metadata = {
   title: 'Blog | YOUSUKE Portfolio',
@@ -40,19 +41,17 @@ function BlogLoading() {
 
 // ブログ記事一覧を取得
 async function getBlogPosts() {
-  const response = await microCMSClient.getBlogPosts({
+  const response = await dal.blog.getBlogPosts({
     limit: 12,
     orders: '-publishedAt',
     filters: 'isPublished[equals]true'
   });
-  
   
   return response.contents;
 }
 
 export default async function BlogPage() {
   const posts = await getBlogPosts();
-  
 
   return (
     <>
@@ -96,6 +95,7 @@ export default async function BlogPage() {
       </main>
       
       <Footer />
+      <RevealInit />
     </>
   );
 }

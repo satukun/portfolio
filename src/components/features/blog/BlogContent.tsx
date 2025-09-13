@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { BlogPost } from '@/lib/types';
-import { formatDate } from '@/lib/utils';
+import { formatDate } from '@/dal';
 
 interface BlogContentProps {
   post: BlogPost;

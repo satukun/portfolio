@@ -1,2 +1,2 @@
 export * from './tech-level';
-export * from './microcms';
+// microCMS関連は src/dal に移行
