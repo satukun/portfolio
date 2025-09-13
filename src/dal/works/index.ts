@@ -1,37 +1,32 @@
 import { MicroCMSBaseClient } from '../microcms-client';
 import { WorkItem } from '@/lib/types';
-import { MicroCMSWorkItem } from '@/lib/types/microcms-work';
 
 /**
- * microCMS WorkItem を既存の WorkItem 型に変換
+ * WorkItemのヘルパー関数
  */
-function convertMicroCMSWork(microCMSWork: MicroCMSWorkItem): WorkItem {
-  return {
-    id: microCMSWork.id,
-    title: microCMSWork.title,
-    description: microCMSWork.description,
-    thumbnail: microCMSWork.thumbnail.url,
-    techStack: microCMSWork.techStack.split(',').map(tech => tech.trim()),
-    category: microCMSWork.category,
-    year: microCMSWork.year,
-    type: microCMSWork.type[0] as "Webアプリ" | "Webサイト", // 配列の最初の要素を使用
-    // 追加フィールド（既存のWorkItem型にはないが、モーダル表示で使用可能）
-    content: microCMSWork.content,
-    images: microCMSWork.images?.map(img => img.url) || [],
-    duration: microCMSWork.duration,
-    role: microCMSWork.role,
-    client: microCMSWork.client,
-    challenge: microCMSWork.challenge,
-    solution: microCMSWork.solution,
-    result: microCMSWork.result,
-    liveUrl: microCMSWork.liveUrl,
-    githubUrl: microCMSWork.githubUrl,
-    status: microCMSWork.status?.[0],
-    isFeatured: microCMSWork.isFeatured,
-    isPublished: microCMSWork.isPublished,
-    order: microCMSWork.order
-  } as WorkItem;
-}
+export const workHelpers = {
+  // サムネイルURLを取得
+  getThumbnailUrl: (work: WorkItem): string => {
+    return typeof work.thumbnail === 'string' ? work.thumbnail : work.thumbnail.url;
+  },
+  
+  // 技術スタック配列を取得
+  getTechStackArray: (work: WorkItem): string[] => {
+    return typeof work.techStack === 'string' 
+      ? work.techStack.split(',').map(tech => tech.trim())
+      : work.techStack;
+  },
+  
+  // タイプ文字列を取得
+  getTypeString: (work: WorkItem): "Webアプリ" | "Webサイト" => {
+    return Array.isArray(work.type) ? work.type[0] as "Webアプリ" | "Webサイト" : work.type;
+  },
+  
+  // ステータス文字列を取得
+  getStatusString: (work: WorkItem): string | undefined => {
+    return Array.isArray(work.status) ? work.status[0] : work.status;
+  }
+};
 
 /**
  * Works（制作実績）データアクセス層
@@ -52,7 +47,7 @@ export class WorksDAL extends MicroCMSBaseClient {
 
     try {
       // 1. まずisFeatured=trueの注目プロジェクトを取得
-      const featuredWorksRaw = await this.getWithFilters<MicroCMSWorkItem>(
+      const featuredWorks = await this.getWithFilters<WorkItem>(
         this.endpoint,
         'isPublished[equals]true[and]isFeatured[equals]true',
         { 
@@ -60,11 +55,10 @@ export class WorksDAL extends MicroCMSBaseClient {
           orders: '-publishedAt,-createdAt' // 公開日時順、作成日時順
         }
       );
-      const featuredWorks = featuredWorksRaw.map(convertMicroCMSWork);
 
       // 2. 注目プロジェクトが不足している場合、最新のプロジェクトで補完
       if (featuredWorks.length < limit) {
-        const latestWorksRaw = await this.getWithFilters<MicroCMSWorkItem>(
+        const latestWorks = await this.getWithFilters<WorkItem>(
           this.endpoint,
           'isPublished[equals]true',
           { 
@@ -72,7 +66,6 @@ export class WorksDAL extends MicroCMSBaseClient {
             orders: '-publishedAt,-createdAt'
           }
         );
-        const latestWorks = latestWorksRaw.map(convertMicroCMSWork);
         
         // 3. 重複を除いて不足分を補完
         const featuredIds = new Set(featuredWorks.map(w => w.id));
@@ -101,7 +94,7 @@ export class WorksDAL extends MicroCMSBaseClient {
     }
 
     try {
-      const worksRaw = await this.getWithFilters<MicroCMSWorkItem>(
+      return await this.getWithFilters<WorkItem>(
         this.endpoint,
         'isPublished[equals]true',
         { 
@@ -109,7 +102,6 @@ export class WorksDAL extends MicroCMSBaseClient {
           orders: 'order,-createdAt'
         }
       );
-      return worksRaw.map(convertMicroCMSWork);
     } catch (error) {
       console.warn('Failed to fetch all works:', error);
       return [];
@@ -125,7 +117,7 @@ export class WorksDAL extends MicroCMSBaseClient {
     }
 
     try {
-      const worksRaw = await this.getWithFilters<MicroCMSWorkItem>(
+      return await this.getWithFilters<WorkItem>(
         this.endpoint,
         `isPublished[equals]true[and]type[contains]${type}`,
         { 
@@ -133,7 +125,6 @@ export class WorksDAL extends MicroCMSBaseClient {
           orders: 'order,-createdAt'
         }
       );
-      return worksRaw.map(convertMicroCMSWork);
     } catch (error) {
       console.warn(`Failed to fetch works by type: ${type}`, error);
       return [];
@@ -206,7 +197,7 @@ export class WorksDAL extends MicroCMSBaseClient {
   async getAvailableTypes(): Promise<string[]> {
     try {
       const allWorks = await this.getAllWorks();
-      const types = [...new Set(allWorks.map(work => work.type))];
+      const types = [...new Set(allWorks.map(work => workHelpers.getTypeString(work)))];
       return types;
     } catch (error) {
       console.warn('Failed to fetch available types:', error);
