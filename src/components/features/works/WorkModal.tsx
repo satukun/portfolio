@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { WorkItem } from "@/lib/types";
+import { workHelpers } from "@/dal/works";
 
 interface WorkModalProps {
   work: WorkItem | null;
@@ -49,7 +50,7 @@ export default function WorkModal({ work, isOpen, onClose }: WorkModalProps) {
         <div className="modal-body">
           <div className="work-thumbnail">
             <img 
-              src={work.thumbnail} 
+              src={workHelpers.getThumbnailUrl(work)} 
               alt={work.title}
               width={600}
               height={400}
@@ -73,7 +74,7 @@ export default function WorkModal({ work, isOpen, onClose }: WorkModalProps) {
             <div className="work-tech-stack">
               <h3>技術スタック</h3>
               <div className="tech-chips">
-                {work.techStack.map((tech, index) => (
+                {workHelpers.getTechStackArray(work).map((tech, index) => (
                   <span key={index} className="tech-chip">
                     {tech}
                   </span>

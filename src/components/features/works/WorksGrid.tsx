@@ -2,6 +2,7 @@
 import { useState } from "react";
 import WorkModal from "./WorkModal";
 import { WorkItem } from "@/lib/types";
+import { workHelpers } from "@/dal/works";
 
 interface WorksGridProps {
   works: WorkItem[];
@@ -39,7 +40,7 @@ export default function WorksGrid({ works, columns = 3, showMore = false, onMore
           >
             <div className="work-card-thumbnail">
               <img 
-                src={work.thumbnail} 
+                src={workHelpers.getThumbnailUrl(work)} 
                 alt={work.title}
                 width={400}
                 height={250}
@@ -51,18 +52,18 @@ export default function WorksGrid({ works, columns = 3, showMore = false, onMore
             </div>
             <div className="work-card-content">
               <div className="work-card-meta">
-                <span className="work-type">{work.type}</span>
+                <span className="work-type">{workHelpers.getTypeString(work)}</span>
                 <span className="work-year">{work.year}</span>
               </div>
               <h3 className="work-card-title">{work.title}</h3>
               <div className="work-card-tech">
-                {work.techStack.slice(0, 3).map((tech, index) => (
+                {workHelpers.getTechStackArray(work).slice(0, 3).map((tech, index) => (
                   <span key={index} className="tech-tag">
                     {tech}
                   </span>
                 ))}
-                {work.techStack.length > 3 && (
-                  <span className="tech-tag more">+{work.techStack.length - 3}</span>
+                {workHelpers.getTechStackArray(work).length > 3 && (
+                  <span className="tech-tag more">+{workHelpers.getTechStackArray(work).length - 3}</span>
                 )}
               </div>
             </div>
