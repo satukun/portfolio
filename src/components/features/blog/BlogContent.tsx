@@ -17,9 +17,9 @@ export default function BlogContent({ post }: BlogContentProps) {
           </time>
           {post.tags && post.tags.length > 0 && (
             <div className="blog-tags">
-              {post.tags.map((tag) => (
+              {post.tags.map((tag, index) => (
                 <span 
-                  key={tag.id} 
+                  key={`${tag.id}-${index}`} 
                   className="blog-tag"
                   style={{ backgroundColor: tag.color }}
                 >
@@ -93,9 +93,9 @@ export default function BlogContent({ post }: BlogContentProps) {
           <div className="blog-footer-tags">
             <h4>タグ</h4>
             <div className="blog-tags">
-              {post.tags.map((tag) => (
+              {post.tags.map((tag, index) => (
                 <span 
-                  key={tag.id} 
+                  key={`footer-${tag.id}-${index}`} 
                   className="blog-tag"
                   style={{ backgroundColor: tag.color }}
                 >

@@ -14,7 +14,6 @@ export default function BlogList({
   onLoadMore, 
   loading = false 
 }: BlogListProps) {
-  
   if (posts.length === 0) {
     return (
       <div className="blog-empty">

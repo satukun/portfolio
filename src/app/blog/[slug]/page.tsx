@@ -36,7 +36,6 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = await dal.blog.getBlogPostBySlug(slug);
-  
   if (!post) {
     return {
       title: 'Page Not Found | YOUSUKE Portfolio',
