@@ -71,8 +71,8 @@ export default function WorksGrid({ works, columns = 3, showMore = false, onMore
       </div>
       
       {showMore && onMoreClick && (
-        <div className="works-more-section" data-reveal="fade-up">
-          <button className="btn secondary works-more-btn" onClick={onMoreClick}>
+        <div className="works-more-section" style={{ textAlign: 'center', marginTop: '32px' }} data-reveal="fade-up">
+          <button className="btn secondary more-btn" onClick={onMoreClick}>
             <span className="material-symbols-outlined">expand_more</span>
             More Works
           </button>

@@ -149,7 +149,7 @@ export default async function Home() {
           
           {/* More Blog Button */}
           <div className="blog-more" style={{ textAlign: 'center', marginTop: '32px' }}>
-            <Link href="/blog" className="btn secondary more-blog-btn" data-reveal="fade-up">
+            <Link href="/blog" className="btn secondary more-btn" data-reveal="fade-up">
               <span className="material-symbols-outlined" aria-hidden>arrow_forward</span>
               More Blog
             </Link>
