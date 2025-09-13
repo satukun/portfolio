@@ -33,7 +33,7 @@ export class BlogDAL extends MicroCMSBaseClient {
         });
       }
 
-      return await this.get<MicroCMSListResponse<BlogPost>>(this.endpoint, params);
+      return await this.get<APIResponse<BlogPost>>(this.endpoint, params);
     } catch (error) {
       console.warn('Failed to fetch blog posts:', error);
       return {
