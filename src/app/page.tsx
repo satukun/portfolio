@@ -17,7 +17,7 @@ export default async function Home() {
   
   try {
     [latestPosts] = await Promise.all([
-      dal.blog.getLatestPosts(3)
+      dal.blog.getLatestPosts(9)
       // 将来的に他のデータも並列取得可能
     ]);
   } catch (error) {
