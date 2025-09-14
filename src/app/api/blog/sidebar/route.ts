@@ -9,6 +9,9 @@ export async function POST(request: NextRequest) {
     // カテゴリ一覧を取得（カウント付き）
     const categoriesWithCount = await getCategoriesWithCount();
     
+    // タグ一覧を取得（カウント付き）
+    const tagsWithCount = await getTagsWithCount();
+    
     return NextResponse.json(
       {
         recentPosts: recentPosts.map(post => ({
@@ -16,7 +19,8 @@ export async function POST(request: NextRequest) {
           slug: post.slug,
           publishedAt: post.publishedAt || post.createdAt
         })),
-        categories: categoriesWithCount
+        categories: categoriesWithCount,
+        tags: tagsWithCount
       },
       { status: 200 }
     );
@@ -34,32 +38,76 @@ export async function POST(request: NextRequest) {
  */
 async function getCategoriesWithCount(): Promise<Array<{name: string; slug: string; count: number}>> {
   try {
-    // 記事数を制限して全記事を取得してカテゴリごりにグループ化
-    const allPosts = await dal.blog.getPublishedPosts(100); // 記事数を適切に制限
+    // 記事数を制限して全記事を取得してカテゴリごとにグループ化
+    const allPosts = await dal.blog.getPublishedPosts(100);
+    console.log('Categories - Total posts fetched:', allPosts.length);
     
     // カテゴリごとの記事数をカウント
     const categoryCount = new Map<string, {name: string; slug: string; count: number}>();
     
     allPosts.forEach(post => {
       if (post.category) {
-        const key = post.category.id;
+        const key = post.category.id || post.category.name;
         if (categoryCount.has(key)) {
           const existing = categoryCount.get(key)!;
           categoryCount.set(key, { ...existing, count: existing.count + 1 });
         } else {
           categoryCount.set(key, {
             name: post.category.name,
-            slug: post.category.slug,
+            slug: post.category.slug || post.category.name.toLowerCase().replace(/\s+/g, '-'),
             count: 1
           });
         }
       }
     });
     
-    return Array.from(categoryCount.values());
+    const categories = Array.from(categoryCount.values());
+    console.log('Categories found:', categories);
+    return categories;
   } catch (error) {
     console.error('Failed to get categories with count:', error);
-    // フォールバック: 空配列を返す
+    return [];
+  }
+}
+
+/**
+ * タグごとの記事数を取得する関数
+ */
+async function getTagsWithCount(): Promise<Array<{name: string; slug: string; count: number}>> {
+  try {
+    // 全記事を取得してタグごとにグループ化
+    const allPosts = await dal.blog.getPublishedPosts(100);
+    console.log('Tags - Total posts fetched:', allPosts.length);
+    
+    // タグごとの記事数をカウント
+    const tagCount = new Map<string, {name: string; slug: string; count: number}>();
+    
+    allPosts.forEach(post => {
+      if (post.tags && Array.isArray(post.tags)) {
+        post.tags.forEach(tag => {
+          const key = tag.id || tag.name;
+          if (tagCount.has(key)) {
+            const existing = tagCount.get(key)!;
+            tagCount.set(key, { ...existing, count: existing.count + 1 });
+          } else {
+            tagCount.set(key, {
+              name: tag.name,
+              slug: tag.slug || tag.name.toLowerCase().replace(/\s+/g, '-'),
+              count: 1
+            });
+          }
+        });
+      }
+    });
+    
+    const tags = Array.from(tagCount.values())
+      .sort((a, b) => b.count - a.count) // 記事数でソート
+      .slice(0, 10); // 上位10件に制限
+    
+    console.log('Tags found:', tags);
+    return tags;
+  } catch (error) {
+    console.error('Failed to get tags with count:', error);
     return [];
   }
 }

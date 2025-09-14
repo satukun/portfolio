@@ -19,15 +19,23 @@ interface Category {
   count: number;
 }
 
+interface Tag {
+  name: string;
+  slug: string;
+  count: number;
+}
+
 interface SidebarData {
   recentPosts: RecentPost[];
   categories: Category[];
+  tags: Tag[];
 }
 
 export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
   const [sidebarData, setSidebarData] = useState<SidebarData>({
     recentPosts: [],
-    categories: []
+    categories: [],
+    tags: []
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -58,8 +66,6 @@ export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
 
     fetchSidebarData();
   }, [])
-
-  // タグデータは将来的にAPIから取得予定
 
   return (
     <aside className={`blog-sidebar ${className}`}>
@@ -131,9 +137,30 @@ export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
         </div>
       </div>
 
-      {/* タグ - 将来的にAPIから取得予定 */}
-
-      {/* アーカイブ - 将来的にAPIから取得予定 */}
+      {/* タグ */}
+      <div className="sidebar-section">
+        <h3 className="sidebar-title">タグ</h3>
+        <div className="tag-cloud">
+          {loading ? (
+            <div className="loading-message">読み込み中...</div>
+          ) : error ? (
+            <div className="error-message">{error}</div>
+          ) : sidebarData.tags.length > 0 ? (
+            sidebarData.tags.map((tag, index) => (
+              <Link 
+                key={`tag-${tag.slug || tag.name || index}`} 
+                href={`/blog/tag/${tag.slug || 'unknown'}`} 
+                className="tag-item"
+              >
+                {tag.name}
+                <span className="tag-count">({tag.count})</span>
+              </Link>
+            ))
+          ) : (
+            <div className="no-data-message">タグがありません</div>
+          )}
+        </div>
+      </div>
 
     </aside>
   );
