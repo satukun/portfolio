@@ -8,7 +8,6 @@ import HeroSection from "@/components/features/portfolio/HeroSection";
 import ProfileSection from "@/components/features/portfolio/ProfileSection";
 import TechStackSection from "@/components/features/tech-stack/TechStackSection";
 import WorksSection from "@/components/features/works/WorksSection";
-import BlogSection from "@/components/features/blog/BlogSection";
 import FollowSection from "@/components/features/portfolio/FollowSection";
 import TechStackSlidePanel from "@/components/features/tech-stack/TechStackSlidePanel";
 
