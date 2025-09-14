@@ -9,6 +9,7 @@ import BlogSidebar from '@/components/features/blog/BlogSidebar';
 import BlogPagination from '@/components/features/blog/BlogPagination';
 import RevealInit from '@/components/common/animations/RevealInit';
 import { dal } from '@/dal';
+import { BlogPost } from '@/lib/types';
 
 interface TagPageProps {
   params: Promise<{
@@ -17,6 +18,14 @@ interface TagPageProps {
   searchParams: Promise<{
     page?: string;
   }>;
+}
+
+interface TagPostsResult {
+  posts: BlogPost[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+  postsPerPage: number;
 }
 
 // メタデータ生成
@@ -35,9 +44,8 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 }
 
 // タグ別記事取得
-async function getTagPosts(tagSlug: string, page: number = 1, postsPerPage: number = 8) {
-  console.log('=== Debug: Tag filtering ===');
-  console.log('Requested tagSlug:', tagSlug);
+async function getTagPosts(tagSlug: string, page: number = 1, postsPerPage: number = 8): Promise<TagPostsResult> {
+  // タグフィルタリング処理
   
   try {
     // 全記事を取得してクライアントサイドでフィルタリング
@@ -47,8 +55,7 @@ async function getTagPosts(tagSlug: string, page: number = 1, postsPerPage: numb
       filters: 'isPublished[equals]true'
     });
     
-    console.log('Total posts fetched:', allPostsResponse.contents.length);
-    console.log('First post tags:', allPostsResponse.contents[0]?.tags);
+    // 全記事を取得
     
     // クライアントサイドでタグフィルタリング
     const filteredPosts = allPostsResponse.contents.filter(post => {
@@ -65,12 +72,7 @@ async function getTagPosts(tagSlug: string, page: number = 1, postsPerPage: numb
           normalizedTagSlugField === normalizedTagSlug ||
           normalizedTagName === normalizedTagSlug;
           
-        if (matches) {
-          console.log('✅ Tag match found:', {
-            tagSlug,
-            matchedTag: tag
-          });
-        }
+        // マッチング処理
         
         return matches;
       });
@@ -78,7 +80,7 @@ async function getTagPosts(tagSlug: string, page: number = 1, postsPerPage: numb
       return hasMatchingTag;
     });
     
-    console.log('Filtered posts found:', filteredPosts.length);
+    // フィルタリング完了
     
     // ページング処理
     const startIndex = (page - 1) * postsPerPage;

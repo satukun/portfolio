@@ -9,6 +9,7 @@ import BlogSidebar from '@/components/features/blog/BlogSidebar';
 import BlogPagination from '@/components/features/blog/BlogPagination';
 import RevealInit from '@/components/common/animations/RevealInit';
 import { dal } from '@/dal';
+import { BlogPost } from '@/lib/types';
 
 interface CategoryPageProps {
   params: Promise<{
@@ -17,6 +18,14 @@ interface CategoryPageProps {
   searchParams: Promise<{
     page?: string;
   }>;
+}
+
+interface CategoryPostsResult {
+  posts: BlogPost[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+  postsPerPage: number;
 }
 
 // メタデータ生成
@@ -35,11 +44,10 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 }
 
 // カテゴリ別記事取得
-async function getCategoryPosts(categorySlug: string, page: number = 1, postsPerPage: number = 8) {
+async function getCategoryPosts(categorySlug: string, page: number = 1, postsPerPage: number = 8): Promise<CategoryPostsResult> {
   const offset = (page - 1) * postsPerPage;
   
-  // デバッグ用ログ追加
-  // microCMSのカテゴリフィルタリング：正しい構文で試行
+  // microCMSカテゴリフィルタリング
   const filterQueries = [
     `isPublished[equals]true[and]category.slug[equals]${categorySlug}`, // slugでの完全一致
     `isPublished[equals]true[and]category.name[equals]${categorySlug}`, // nameでの完全一致
@@ -54,7 +62,7 @@ async function getCategoryPosts(categorySlug: string, page: number = 1, postsPer
   // 複数のフィルタリング構文を試行
   for (const filter of filterQueries) {
     try {
-      console.log('Trying filter:', filter);
+      // フィルター試行
       response = await dal.blog.getBlogPosts({
         limit: postsPerPage,
         offset,
@@ -64,18 +72,18 @@ async function getCategoryPosts(categorySlug: string, page: number = 1, postsPer
       
       if (response.totalCount > 0) {
         usedFilter = filter;
-        console.log('Success with filter:', filter, 'Found:', response.totalCount);
+        // フィルター成功
         break;
       }
     } catch (error) {
-      console.log('Filter failed:', filter, error);
+      // フィルター失敗、次を試行
       continue;
     }
   }
   
   // フィルターで見つからない場合は空の結果を返す（全記事表示はしない）
   if (!response || response.totalCount === 0) {
-    console.log('No posts found with category:', categorySlug);
+    // カテゴリに該当する記事なし
     response = {
       contents: [],
       totalCount: 0,
