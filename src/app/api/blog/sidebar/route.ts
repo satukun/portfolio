@@ -3,8 +3,8 @@ import { dal } from '@/dal';
 
 export async function POST(request: NextRequest) {
   try {
-    // 最新記事を取得（サイドバー用に少なめ）
-    const recentPosts = await dal.blog.getLatestPosts(5);
+    // 最新記事を取得（サイドバー用に3件まで）
+    const recentPosts = await dal.blog.getLatestPosts(3);
     
     // カテゴリ一覧を取得（カウント付き）
     const categoriesWithCount = await getCategoriesWithCount();
