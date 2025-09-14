@@ -10,9 +10,9 @@ import TechStackSlidePanel from "./TechStackSlidePanel";
 export default function TechStackClient() {
   const [isTechStackPanelOpen, setIsTechStackPanelOpen] = useState(false);
 
-  const handleTechStackOpen = () => {
-    setIsTechStackPanelOpen(true);
-  };
+  // const handleTechStackOpen = () => {
+  //   setIsTechStackPanelOpen(true);
+  // };
 
   const handleTechStackClose = () => {
     setIsTechStackPanelOpen(false);
