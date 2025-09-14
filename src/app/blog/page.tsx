@@ -84,7 +84,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 Blog
               </h1>
               <p className="blog-hero-description" data-reveal="fade-up">
-                フロントエンド技術に関する記事やノウハウ、開発で得た知見を発信しています。
+                フロントエンド技術に関する記事やノウハウ、開発で得た知見を発信しています。<br />
                 最新の技術トレンドや実務で使えるテクニックを中心にお届けします。
               </p>
             </div>

@@ -59,7 +59,7 @@ export default function ContactSection() {
         <div className="section-header">
           <h2 className="section-title">Contact</h2>
           <p className="section-description">
-            お仕事のご依頼や技術的なご質問、コラボレーションのご相談など、お気軽にお問い合わせください。
+            お仕事のご依頼や技術的なご質問、コラボレーションのご相談など、<br />お気軽にお問い合わせください。
           </p>
         </div>
 

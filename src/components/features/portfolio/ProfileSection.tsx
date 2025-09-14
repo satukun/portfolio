@@ -17,7 +17,7 @@ export default function ProfileSection() {
       <div className="container">
         <h2 className="section-title" data-reveal="fade-up">Profile</h2>
         <p className="section-description" data-reveal="fade-up">
-          フロントエンドエンジニアとしての経歴、スキル、取り組んできたプロジェクトをご紹介します。
+          フロントエンドエンジニアとしての経歴、<br />スキル、取り組んできたプロジェクトをご紹介します。
         </p>
         <div className="profile">
           <div className="avatar-xl" data-reveal="scale">
@@ -41,7 +41,7 @@ export default function ProfileSection() {
               エンジニア歴10年以上 / フロントエンド×AI活用
             </p>
             <p className="muted" data-reveal="fade-right">
-              実務で使える生成AI活用を、エンジニア視点で検証・発信しています。フロントエンドの実装においてもAIツールを積極的に活用し、開発効率と品質向上を追求しています。
+              実務で使える生成AI活用を、エンジニア視点で検証・発信しています。<br />フロントエンドの実装においてもAIツールを積極的に活用し、開発効率と品質向上を追求しています。
             </p>
             <div className="chips" data-reveal="fade-right">
               {techStack.map((tech) => (
