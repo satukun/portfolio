@@ -27,7 +27,7 @@ export default function TechStackClient() {
             フロントエンド開発を中心とした技術スキルの可視化チャートです。各技術の習熟度を表示しています。
           </p>
           <div className="tech-stack-container" data-reveal="scale">
-            <TechStackChart onTechStackOpen={handleTechStackOpen} />
+            <TechStackChart />
           </div>
         </div>
       </section>

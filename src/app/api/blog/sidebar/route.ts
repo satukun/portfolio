@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { dal } from '@/dal';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // 最新記事を取得（サイドバー用に3件まで）
     const recentPosts = await dal.blog.getLatestPosts(3);

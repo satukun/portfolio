@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { TechCategory } from "@/lib/types";
+// import { TechCategory } from "@/lib/types";
 import { techStackData } from "@/lib/constants";
 import { getLevelColor, getLevelText } from "@/lib/utils";
 

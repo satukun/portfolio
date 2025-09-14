@@ -55,7 +55,7 @@ async function getCategoryPosts(categorySlug: string, page: number = 1, postsPer
   ];
 
   let response;
-  let usedFilter = '';
+  // let usedFilter = ''; // 使用されていないためコメントアウト
   
   // 複数のフィルタリング構文を試行
   for (const filter of filterQueries) {
@@ -69,11 +69,11 @@ async function getCategoryPosts(categorySlug: string, page: number = 1, postsPer
       });
       
       if (response.totalCount > 0) {
-        usedFilter = filter;
+        // usedFilter = filter;
         // フィルター成功
         break;
       }
-    } catch (error) {
+    } catch {
       // フィルター失敗、次を試行
       continue;
     }
