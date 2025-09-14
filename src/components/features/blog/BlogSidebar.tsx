@@ -59,14 +59,7 @@ export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
     fetchSidebarData();
   }, [])
 
-  const tags = [
-    { name: "React", slug: "react", count: 15 },
-    { name: "Next.js", slug: "nextjs", count: 12 },
-    { name: "TypeScript", slug: "typescript", count: 10 },
-    { name: "CSS", slug: "css", count: 8 },
-    { name: "JavaScript", slug: "javascript", count: 7 },
-    { name: "Vite", slug: "vite", count: 5 }
-  ];
+  // タグデータは将来的にAPIから取得予定
 
   return (
     <aside className={`blog-sidebar ${className}`}>
@@ -138,41 +131,9 @@ export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
         </div>
       </div>
 
-      {/* タグ */}
-      <div className="sidebar-section">
-        <h3 className="sidebar-title">タグ</h3>
-        <div className="tag-cloud">
-          {tags.map((tag, index) => (
-            <Link 
-              key={`tag-${tag.slug || tag.name || index}`} 
-              href={`/blog/tag/${tag.slug || 'unknown'}`} 
-              className="tag-item"
-            >
-              {tag.name}
-              <span className="tag-count">({tag.count})</span>
-            </Link>
-          ))}
-        </div>
-      </div>
+      {/* タグ - 将来的にAPIから取得予定 */}
 
-      {/* アーカイブ */}
-      <div className="sidebar-section">
-        <h3 className="sidebar-title">アーカイブ</h3>
-        <div className="archive-list">
-          <Link href="/blog/2025/01" className="archive-item">
-            <span>2025年1月</span>
-            <span className="archive-count">(8)</span>
-          </Link>
-          <Link href="/blog/2024/12" className="archive-item">
-            <span>2024年12月</span>
-            <span className="archive-count">(12)</span>
-          </Link>
-          <Link href="/blog/2024/11" className="archive-item">
-            <span>2024年11月</span>
-            <span className="archive-count">(10)</span>
-          </Link>
-        </div>
-      </div>
+      {/* アーカイブ - 将来的にAPIから取得予定 */}
 
     </aside>
   );
