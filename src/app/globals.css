@@ -772,8 +772,29 @@ section { padding: 60px 0; position: relative; }
   top: 90px; /* ヘッダーの高さ + マージン */
   height: fit-content;
   align-self: start; /* グリッドアイテムの上部に配置 */
-  max-height: calc(100vh - 120px); /* 画面高さに合わせてスクロール可能に */
+  max-height: calc(100vh - 100px); /* タグエリアまで表示できるよう緩和 */
   overflow-y: auto; /* サイドバー内容が長い場合にスクロール */
+  /* スクロールバーのスタイリング */
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--color-primary) 30%, transparent) transparent;
+}
+
+/* Webkit系ブラウザのスクロールバースタイリング */
+.blog-sidebar-desktop::-webkit-scrollbar {
+  width: 6px;
+}
+
+.blog-sidebar-desktop::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.blog-sidebar-desktop::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--color-primary) 30%, transparent);
+  border-radius: 3px;
+}
+
+.blog-sidebar-desktop::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--color-primary) 50%, transparent);
 }
 
 .blog-sidebar-mobile {
@@ -796,6 +817,7 @@ section { padding: 60px 0; position: relative; }
   
   .blog-sidebar-desktop {
     top: 80px;
+    max-height: calc(100vh - 100px); /* タブレット用調整 */
   }
 }
 
@@ -2219,7 +2241,7 @@ section { padding: 60px 0; position: relative; }
 }
 
 .sidebar-section {
-  padding: 24px;
+  padding: 20px; /* パディングを少し減らして縦スペースを確保 */
   border-bottom: 1px solid color-mix(in oklab, var(--color-primary) 8%, transparent);
 }
 
@@ -2228,9 +2250,9 @@ section { padding: 60px 0; position: relative; }
 }
 
 .sidebar-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem; /* フォントサイズを微調整 */
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 14px; /* マージンを少し減らしてスペース確保 */
   color: var(--color-fg);
 }
 
@@ -2277,7 +2299,7 @@ section { padding: 60px 0; position: relative; }
 .recent-posts {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px; /* ギャップを少し減らしてスペース効率向上 */
 }
 
 .recent-post {
@@ -2311,7 +2333,7 @@ section { padding: 60px 0; position: relative; }
 .category-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px; /* ギャップを少し減らしてスペース効率向上 */
 }
 
 .category-item {
@@ -2396,6 +2418,30 @@ section { padding: 60px 0; position: relative; }
 .archive-count {
   font-size: 0.8rem;
   color: color-mix(in oklab, var(--color-fg) 60%, transparent);
+}
+
+/* サイドバーメッセージスタイル */
+.loading-message, .error-message, .no-data-message {
+  padding: 12px;
+  text-align: center;
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+
+.loading-message {
+  color: color-mix(in oklab, var(--color-fg) 70%, transparent);
+  background: color-mix(in oklab, var(--color-bg) 95%, var(--color-primary));
+}
+
+.error-message {
+  color: #dc2626;
+  background: color-mix(in oklab, #dc2626 5%, transparent);
+  border: 1px solid color-mix(in oklab, #dc2626 15%, transparent);
+}
+
+.no-data-message {
+  color: color-mix(in oklab, var(--color-fg) 60%, transparent);
+  background: color-mix(in oklab, var(--color-fg) 5%, transparent);
 }
 
 /* Responsive Styles for Works */
