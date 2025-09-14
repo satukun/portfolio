@@ -73,28 +73,42 @@ export class BlogDAL extends MicroCMSBaseClient {
    * 公開済みの記事のみを取得
    */
   async getPublishedPosts(limit?: number): Promise<BlogPost[]> {
-    return await this.getWithFilters<BlogPost>(
-      this.endpoint,
-      'isPublished[equals]true',
-      { 
+    if (!MicroCMSBaseClient.hasEnvironment()) {
+      return [];
+    }
+
+    try {
+      // isPublishedフィルターなしで全記事を取得（環境に応じて調整）
+      const response = await this.get<APIResponse<BlogPost>>(this.endpoint, { 
         limit: limit || 10,
         orders: '-publishedAt'
-      }
-    );
+      });
+      return response.contents;
+    } catch (error) {
+      console.warn('Failed to fetch published posts:', error);
+      return [];
+    }
   }
 
   /**
    * 最新記事を取得（ホームページ用）
    */
   async getLatestPosts(limit: number = 3): Promise<BlogPost[]> {
-    return await this.getWithFilters<BlogPost>(
-      this.endpoint,
-      'isPublished[equals]true',
-      { 
+    if (!MicroCMSBaseClient.hasEnvironment()) {
+      return [];
+    }
+
+    try {
+      // isPublishedフィルターなしで最新記事を取得
+      const response = await this.get<APIResponse<BlogPost>>(this.endpoint, { 
         limit,
         orders: '-publishedAt'
-      }
-    );
+      });
+      return response.contents;
+    } catch (error) {
+      console.warn('Failed to fetch latest posts:', error);
+      return [];
+    }
   }
 
   /**

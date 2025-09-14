@@ -48,7 +48,14 @@ export class MicroCMSBaseClient {
       });
 
       if (!response.ok) {
-        throw new Error(`MicroCMS API error: ${response.status} ${response.statusText}`);
+        const errorText = await response.text();
+        console.error(`MicroCMS API error details:`, {
+          url: url.toString(),
+          status: response.status,
+          statusText: response.statusText,
+          errorBody: errorText
+        });
+        throw new Error(`MicroCMS API error: ${response.status} ${response.statusText} - ${errorText}`);
       }
 
       return await response.json();

@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
  */
 async function getCategoriesWithCount(): Promise<Array<{name: string; slug: string; count: number}>> {
   try {
-    // 全記事を取得してカテゴリごとにグループ化
-    const allPosts = await dal.blog.getPublishedPosts(1000); // 大きめの数値で全件取得
+    // 記事数を制限して全記事を取得してカテゴリごりにグループ化
+    const allPosts = await dal.blog.getPublishedPosts(100); // 記事数を適切に制限
     
     // カテゴリごとの記事数をカウント
     const categoryCount = new Map<string, {name: string; slug: string; count: number}>();
@@ -59,6 +59,7 @@ async function getCategoriesWithCount(): Promise<Array<{name: string; slug: stri
     return Array.from(categoryCount.values());
   } catch (error) {
     console.error('Failed to get categories with count:', error);
+    // フォールバック: 空配列を返す
     return [];
   }
 }
