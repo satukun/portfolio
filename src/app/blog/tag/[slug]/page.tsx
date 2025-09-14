@@ -39,13 +39,26 @@ async function getTagPosts(tagSlug: string, page: number = 1, postsPerPage: numb
   const offset = (page - 1) * postsPerPage;
   
   // デバッグ用ログ追加
-  // microCMSのタグフィルタリング：正しい構文で試行
+  // まず全記事を取得してタグ構造を確認
+  console.log('=== Debug: Getting all posts to understand tag structure ===');
+  const allPostsResponse = await dal.blog.getBlogPosts({
+    limit: 5,
+    orders: '-publishedAt',
+    filters: 'isPublished[equals]true'
+  });
+  
+  console.log('Sample posts with tags:', allPostsResponse.contents.map(post => ({
+    title: post.title,
+    tags: post.tags
+  })));
+
+  // 正しいmicroCMSフィルタリング構文
   const filterQueries = [
-    `isPublished[equals]true[and]tags.slug[equals]${tagSlug}`, // slugでの完全一致
-    `isPublished[equals]true[and]tags.name[equals]${tagSlug}`, // nameでの完全一致
-    `isPublished[equals]true[and]tags.slug[contains]${tagSlug}`, // slugでの部分一致
-    `isPublished[equals]true[and]tags.name[contains]${tagSlug}`, // nameでの部分一致
-    `isPublished[equals]true[and]tags[contains]${tagSlug}` // 基本構文
+    `isPublished[equals]true`, // まずフィルターなしで試行
+    // 他の構文は一旦コメントアウト
+    // `tags.slug[equals]${tagSlug}`,
+    // `tags.name[equals]${tagSlug}`,
+    // `tags[contains]${tagSlug}`
   ];
 
   let response;
@@ -62,10 +75,40 @@ async function getTagPosts(tagSlug: string, page: number = 1, postsPerPage: numb
         filters: filter
       });
       
+      console.log('Filter result:', {
+        filter,
+        totalCount: response.totalCount,
+        firstPost: response.contents[0] ? {
+          title: response.contents[0].title,
+          tags: response.contents[0].tags
+        } : null
+      });
+      
       if (response.totalCount > 0) {
-        usedFilter = filter;
-        console.log('Success with filter:', filter, 'Found:', response.totalCount);
-        break;
+        // クライアントサイドでフィルタリング（一時的な解決策）
+        const filteredPosts = response.contents.filter(post => {
+          if (!post.tags || post.tags.length === 0) return false;
+          return post.tags.some(tag => 
+            tag.slug === tagSlug || 
+            tag.name === tagSlug ||
+            tag.slug?.toLowerCase() === tagSlug.toLowerCase() ||
+            tag.name?.toLowerCase() === tagSlug.toLowerCase()
+          );
+        });
+        
+        console.log('Client-side filtered posts:', filteredPosts.length);
+        
+        if (filteredPosts.length > 0) {
+          response = {
+            contents: filteredPosts,
+            totalCount: filteredPosts.length,
+            offset: 0,
+            limit: postsPerPage
+          };
+          usedFilter = `client-side-filter:${filter}`;
+          console.log('Success with client-side filter. Found:', filteredPosts.length);
+          break;
+        }
       }
     } catch (error) {
       console.log('Filter failed:', filter, error);
