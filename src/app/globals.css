@@ -2855,14 +2855,19 @@ section { padding: 60px 0; position: relative; }
 .form-input,
 .form-textarea {
   width: 100%;
-  padding: 12px 16px;
-  border: 2px solid var(--color-border);
+  padding: 14px 16px;
+  border: 2px solid color-mix(in oklab, var(--color-fg) 15%, transparent);
   border-radius: var(--radius-md);
-  background: var(--color-bg-primary);
+  background: var(--color-bg);
   color: var(--color-fg);
   font-family: inherit;
   font-size: 0.95rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: color-mix(in oklab, var(--color-fg) 50%, transparent);
 }
 
 .form-input:focus,
@@ -2870,11 +2875,13 @@ section { padding: 60px 0; position: relative; }
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-primary) 15%, transparent);
+  background: var(--color-bg);
 }
 
 .form-input.error,
 .form-textarea.error {
   border-color: var(--color-accent-red);
+  background: color-mix(in oklab, var(--color-accent-red) 3%, transparent);
 }
 
 .form-input.error:focus,
@@ -2892,6 +2899,7 @@ section { padding: 60px 0; position: relative; }
 .form-textarea:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  background: color-mix(in oklab, var(--color-fg) 5%, transparent);
 }
 
 .error-message {
@@ -2899,10 +2907,13 @@ section { padding: 60px 0; position: relative; }
   font-size: 0.8rem;
   font-weight: 500;
   margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .form-actions {
-  margin-top: 16px;
+  margin-top: 24px;
 }
 
 .form-actions .btn {
@@ -2915,6 +2926,7 @@ section { padding: 60px 0; position: relative; }
 .btn.disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* Contact Info */
@@ -3034,10 +3046,21 @@ section { padding: 60px 0; position: relative; }
   width: 90vw;
 }
 
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+  color: var(--color-fg);
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-fg) 10%, transparent);
+}
+
 .confirmation-content {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin-bottom: 32px;
 }
 
 .confirmation-note {
@@ -3047,6 +3070,7 @@ section { padding: 60px 0; position: relative; }
   border-left: 4px solid var(--color-primary);
   color: var(--color-fg);
   margin: 0 0 24px 0;
+  font-size: 0.9rem;
 }
 
 .confirmation-item {
@@ -3054,7 +3078,7 @@ section { padding: 60px 0; position: relative; }
   flex-direction: column;
   gap: 8px;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid color-mix(in oklab, var(--color-fg) 10%, transparent);
 }
 
 .confirmation-item:last-child {
@@ -3073,9 +3097,9 @@ section { padding: 60px 0; position: relative; }
   font-size: 0.95rem;
   line-height: 1.6;
   padding: 12px 16px;
-  background: var(--color-bg-primary);
+  background: color-mix(in oklab, var(--color-fg) 3%, transparent);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
+  border: 1px solid color-mix(in oklab, var(--color-fg) 10%, transparent);
 }
 
 .message-content p {
@@ -3084,6 +3108,21 @@ section { padding: 60px 0; position: relative; }
 
 .message-content p:last-child {
   margin: 0;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding-top: 24px;
+  border-top: 1px solid color-mix(in oklab, var(--color-fg) 10%, transparent);
+}
+
+.modal-footer .btn {
+  min-width: 120px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 /* Responsive Styles for Contact */

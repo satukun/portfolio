@@ -13,8 +13,7 @@ export default function ContactForm({ onSubmit, isSubmitting = false }: ContactF
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
-    reset
+    formState: { errors, isValid }
   } = useForm<ContactFormData>({
     resolver: yupResolver(contactFormSchema),
     mode: 'onChange'

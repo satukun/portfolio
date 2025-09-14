@@ -42,19 +42,18 @@ export default function ContactConfirmationModal({
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content contact-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h3 className="modal-title">お問い合わせ内容の確認</h3>
-          <button
-            type="button"
-            className="modal-close-btn"
-            onClick={onClose}
-            aria-label="モーダルを閉じる"
-          >
-            ×
-          </button>
-        </div>
+        <button
+          type="button"
+          className="modal-close"
+          onClick={onClose}
+          aria-label="モーダルを閉じる"
+        >
+          <span className="material-symbols-outlined">close</span>
+        </button>
 
         <div className="modal-body">
+          <h3 className="modal-title">お問い合わせ内容の確認</h3>
+          
           <div className="confirmation-content">
             <p className="confirmation-note">
               以下の内容でお問い合わせを送信します。内容をご確認ください。
@@ -79,25 +78,25 @@ export default function ContactConfirmationModal({
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={onClose}
-            disabled={isSubmitting}
-          >
-            戻る
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={onSubmit}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? '送信中...' : '送信する'}
-          </button>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={onClose}
+              disabled={isSubmitting}
+            >
+              戻る
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={onSubmit}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? '送信中...' : '送信する'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
