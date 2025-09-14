@@ -755,6 +755,85 @@ section { padding: 60px 0; position: relative; }
   transform: translateX(4px);
 }
 
+/* Posts Grid (Top Page) */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.post-card {
+  background: color-mix(in oklab, var(--color-bg) 95%, var(--color-primary));
+  border: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.875rem;
+  color: color-mix(in oklab, var(--color-fg) 70%, transparent);
+}
+
+.post-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.tag {
+  background: var(--color-primary);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.post-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.post-summary {
+  color: color-mix(in oklab, var(--color-fg) 80%, transparent);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.btn.cta {
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.btn.cta:hover {
+  background: color-mix(in oklab, var(--color-primary) 90%, black);
+  transform: translateY(-1px);
+}
+
 /* Blog Layout with Sidebar */
 .blog-layout {
   display: grid;
