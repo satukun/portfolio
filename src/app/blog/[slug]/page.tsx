@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import Header from '@/components/layouts/Header';
 import BlogContent from '@/components/features/blog/BlogContent';
 import BlogSidebar from '@/components/features/blog/BlogSidebar';
@@ -153,7 +154,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <Link href={`/blog/${relatedPost.slug}`}>
                       {relatedPost.thumbnail && (
                         <div className="related-post-thumbnail">
-                          <img 
+                          <Image 
                             src={relatedPost.thumbnail.url} 
                             alt={relatedPost.title}
                             width={300}

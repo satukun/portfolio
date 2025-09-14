@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import WorkModal from "./WorkModal";
 import { WorkItem } from "@/lib/types";
 import { workHelpers } from "@/dal/works";
@@ -39,7 +40,7 @@ export default function WorksGrid({ works, columns = 3, showMore = false, onMore
             {...(!disableReveal && { 'data-reveal': 'scale' })}
           >
             <div className="work-card-thumbnail">
-              <img 
+              <Image 
                 src={workHelpers.getThumbnailUrl(work)} 
                 alt={work.title}
                 width={400}

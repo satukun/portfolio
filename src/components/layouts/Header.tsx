@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-// import Image from "next/image";
+import Image from "next/image";
 import ThemeSwitcher from "@/components/common/buttons/ThemeSwitcher";
 
 interface HeaderProps {
@@ -41,7 +41,7 @@ export default function Header({ onTechStackOpen }: HeaderProps = {}) {
       <div className="container header-inner">
         <Link href="/" className="brand" onClick={() => setOpen(false)}>
           <span className="brand-avatar">
-            <img src="/profile_image/sandaga.svg" alt="YOUSUKE" width={32} height={32} />
+            <Image src="/profile_image/sandaga.svg" alt="YOUSUKE" width={32} height={32} />
           </span>
           <span className="brand-text">YOUSUKE</span>
         </Link>

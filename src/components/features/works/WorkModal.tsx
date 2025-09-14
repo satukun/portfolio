@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import Image from "next/image";
 import { WorkItem } from "@/lib/types";
 import { workHelpers } from "@/dal/works";
 
@@ -49,7 +50,7 @@ export default function WorkModal({ work, isOpen, onClose }: WorkModalProps) {
         
         <div className="modal-body">
           <div className="work-thumbnail">
-            <img 
+            <Image 
               src={workHelpers.getThumbnailUrl(work)} 
               alt={work.title}
               width={600}

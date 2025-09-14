@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 /**
  * プロフィールセクション
  * 個人情報、技術スタック、SNSリンクを表示
@@ -21,7 +23,7 @@ export default function ProfileSection() {
         </p>
         <div className="profile">
           <div className="avatar-xl" data-reveal="scale">
-            <img
+            <Image
               src="/profile_image/sandaga.svg"
               alt="YOUSUKE"
               width={200}
