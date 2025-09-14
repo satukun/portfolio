@@ -95,8 +95,12 @@ export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
           ) : error ? (
             <div className="error-message">{error}</div>
           ) : sidebarData.recentPosts.length > 0 ? (
-            sidebarData.recentPosts.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`} className="recent-post">
+            sidebarData.recentPosts.map((post, index) => (
+              <Link 
+                key={`post-${post.slug || post.title || index}`} 
+                href={`/blog/${post.slug || 'unknown'}`} 
+                className="recent-post"
+              >
                 <h4 className="recent-post-title">{post.title}</h4>
                 <time className="recent-post-date">
                   {new Date(post.publishedAt).toLocaleDateString('ja-JP')}
@@ -118,10 +122,10 @@ export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
           ) : error ? (
             <div className="error-message">{error}</div>
           ) : sidebarData.categories.length > 0 ? (
-            sidebarData.categories.map((category) => (
+            sidebarData.categories.map((category, index) => (
               <Link 
-                key={category.slug} 
-                href={`/blog/category/${category.slug}`} 
+                key={`category-${category.slug || category.name || index}`} 
+                href={`/blog/category/${category.slug || 'unknown'}`} 
                 className="category-item"
               >
                 <span className="category-name">{category.name}</span>
@@ -138,10 +142,10 @@ export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
       <div className="sidebar-section">
         <h3 className="sidebar-title">タグ</h3>
         <div className="tag-cloud">
-          {tags.map((tag) => (
+          {tags.map((tag, index) => (
             <Link 
-              key={tag.slug} 
-              href={`/blog/tag/${tag.slug}`} 
+              key={`tag-${tag.slug || tag.name || index}`} 
+              href={`/blog/tag/${tag.slug || 'unknown'}`} 
               className="tag-item"
             >
               {tag.name}
