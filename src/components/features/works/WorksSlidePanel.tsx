@@ -18,6 +18,7 @@ export default function WorksSlidePanel({ isOpen, onClose, works }: WorksSlidePa
       setActiveFilter("All");
     }
   }, [isOpen]);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -49,7 +50,11 @@ export default function WorksSlidePanel({ isOpen, onClose, works }: WorksSlidePa
   // フィルタリングされた作品リスト
   const filteredWorks = activeFilter === "All" 
     ? works 
-    : works.filter(work => work.type === activeFilter);
+    : works.filter(work => {
+        // typeが配列の場合と文字列の場合に対応
+        const workType = Array.isArray(work.type) ? work.type[0] : work.type;
+        return workType === activeFilter;
+      });
 
   // フィルタボタンのハンドラ
   const handleFilterChange = (filter: FilterType) => {
@@ -59,7 +64,10 @@ export default function WorksSlidePanel({ isOpen, onClose, works }: WorksSlidePa
   // 各フィルターのカウント数を計算
   const getFilterCount = (filter: FilterType) => {
     if (filter === "All") return works.length;
-    return works.filter(work => work.type === filter).length;
+    return works.filter(work => {
+      const workType = Array.isArray(work.type) ? work.type[0] : work.type;
+      return workType === filter;
+    }).length;
   };
 
   return (
