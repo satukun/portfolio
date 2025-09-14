@@ -4,6 +4,7 @@ import Header from '@/components/layouts/Header';
 import Footer from '@/components/layouts/Footer';
 import BlogList from '@/components/features/blog/BlogList';
 import BlogSidebar from '@/components/features/blog/BlogSidebar';
+import BlogPagination from '@/components/features/blog/BlogPagination';
 import RevealInit from '@/components/common/animations/RevealInit';
 import { dal } from '@/dal';
 
@@ -39,19 +40,38 @@ function BlogLoading() {
   );
 }
 
+interface BlogPageProps {
+  searchParams: Promise<{
+    page?: string;
+  }>;
+}
+
 // ブログ記事一覧を取得
-async function getBlogPosts() {
+async function getBlogPosts(page: number = 1, postsPerPage: number = 8) {
+  const offset = (page - 1) * postsPerPage;
+  
   const response = await dal.blog.getBlogPosts({
-    limit: 8,
+    limit: postsPerPage,
+    offset,
     orders: '-publishedAt',
     filters: 'isPublished[equals]true'
   });
   
-  return response.contents;
+  return {
+    posts: response.contents,
+    totalCount: response.totalCount,
+    totalPages: Math.ceil(response.totalCount / postsPerPage),
+    currentPage: page,
+    postsPerPage
+  };
 }
 
-export default async function BlogPage() {
-  const posts = await getBlogPosts();
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+  const params = await searchParams;
+  const currentPage = Number(params.page) || 1;
+  const postsPerPage = 8;
+  
+  const { posts, totalCount, totalPages } = await getBlogPosts(currentPage, postsPerPage);
 
   return (
     <>
@@ -82,6 +102,14 @@ export default async function BlogPage() {
                 <Suspense fallback={<BlogLoading />}>
                   <BlogList posts={posts} />
                 </Suspense>
+                
+                {/* ページネーション */}
+                <BlogPagination 
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalCount={totalCount}
+                  postsPerPage={postsPerPage}
+                />
               </main>
               
               {/* サイドバー */}
