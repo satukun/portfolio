@@ -1,34 +1,63 @@
+'use client';
+
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 interface BlogSidebarProps {
   className?: string;
 }
 
-export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
-  const recentPosts = [
-    {
-      title: "Next.js App Routerでのパフォーマンス最適化",
-      slug: "nextjs-performance",
-      date: "2025-01-15"
-    },
-    {
-      title: "TypeScriptの型安全性を高めるzod活用法",
-      slug: "typescript-zod",
-      date: "2025-01-10"
-    },
-    {
-      title: "Tailwind CSSレスポンシブデザインパターン",
-      slug: "tailwind-responsive",
-      date: "2025-01-05"
-    }
-  ];
+interface RecentPost {
+  title: string;
+  slug: string;
+  publishedAt: string;
+}
 
-  const categories = [
-    { name: "フロントエンド", slug: "frontend", count: 12 },
-    { name: "パフォーマンス", slug: "performance", count: 8 },
-    { name: "ツール・環境", slug: "tools", count: 6 },
-    { name: "UI/UX", slug: "ui-ux", count: 4 }
-  ];
+interface Category {
+  name: string;
+  slug: string;
+  count: number;
+}
+
+interface SidebarData {
+  recentPosts: RecentPost[];
+  categories: Category[];
+}
+
+export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
+  const [sidebarData, setSidebarData] = useState<SidebarData>({
+    recentPosts: [],
+    categories: []
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchSidebarData = async () => {
+      try {
+        const response = await fetch('/api/blog/sidebar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('サイドバーデータの取得に失敗しました');
+        }
+
+        const data: SidebarData = await response.json();
+        setSidebarData(data);
+      } catch (error) {
+        console.error('Error fetching sidebar data:', error);
+        setError(error instanceof Error ? error.message : '不明なエラーが発生しました');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSidebarData();
+  }, [])
 
   const tags = [
     { name: "React", slug: "react", count: 15 },
@@ -61,12 +90,22 @@ export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
       <div className="sidebar-section">
         <h3 className="sidebar-title">最新記事</h3>
         <div className="recent-posts">
-          {recentPosts.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className="recent-post">
-              <h4 className="recent-post-title">{post.title}</h4>
-              <time className="recent-post-date">{post.date}</time>
-            </Link>
-          ))}
+          {loading ? (
+            <div className="loading-message">読み込み中...</div>
+          ) : error ? (
+            <div className="error-message">{error}</div>
+          ) : sidebarData.recentPosts.length > 0 ? (
+            sidebarData.recentPosts.map((post) => (
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="recent-post">
+                <h4 className="recent-post-title">{post.title}</h4>
+                <time className="recent-post-date">
+                  {new Date(post.publishedAt).toLocaleDateString('ja-JP')}
+                </time>
+              </Link>
+            ))
+          ) : (
+            <div className="no-data-message">記事がありません</div>
+          )}
         </div>
       </div>
 
@@ -74,16 +113,24 @@ export default function BlogSidebar({ className = '' }: BlogSidebarProps) {
       <div className="sidebar-section">
         <h3 className="sidebar-title">カテゴリ</h3>
         <div className="category-list">
-          {categories.map((category) => (
-            <Link 
-              key={category.slug} 
-              href={`/blog/category/${category.slug}`} 
-              className="category-item"
-            >
-              <span className="category-name">{category.name}</span>
-              <span className="category-count">({category.count})</span>
-            </Link>
-          ))}
+          {loading ? (
+            <div className="loading-message">読み込み中...</div>
+          ) : error ? (
+            <div className="error-message">{error}</div>
+          ) : sidebarData.categories.length > 0 ? (
+            sidebarData.categories.map((category) => (
+              <Link 
+                key={category.slug} 
+                href={`/blog/category/${category.slug}`} 
+                className="category-item"
+              >
+                <span className="category-name">{category.name}</span>
+                <span className="category-count">({category.count})</span>
+              </Link>
+            ))
+          ) : (
+            <div className="no-data-message">カテゴリがありません</div>
+          )}
         </div>
       </div>
 
