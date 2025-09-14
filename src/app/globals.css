@@ -2505,6 +2505,114 @@ section { padding: 60px 0; position: relative; }
   color: color-mix(in oklab, var(--color-fg) 60%, transparent);
 }
 
+/* Blog Pagination */
+.blog-pagination {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid color-mix(in oklab, var(--color-primary) 10%, transparent);
+}
+
+.pagination-info {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.pagination-count {
+  font-size: 0.9rem;
+  color: color-mix(in oklab, var(--color-fg) 70%, transparent);
+}
+
+.pagination-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent);
+  background: transparent;
+  color: var(--color-fg);
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(.disabled) {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.pagination-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 16px;
+}
+
+.pagination-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent);
+  background: transparent;
+  color: var(--color-fg);
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pagination-number:hover {
+  background: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  border-color: var(--color-primary);
+}
+
+.pagination-number.active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.pagination-ellipsis {
+  padding: 0 8px;
+  color: color-mix(in oklab, var(--color-fg) 50%, transparent);
+}
+
+@media (max-width: 768px) {
+  .pagination-controls {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .pagination-numbers {
+    margin: 0;
+  }
+  
+  .pagination-btn {
+    width: 100%;
+    justify-content: center;
+    max-width: 200px;
+  }
+}
+
 /* サイドバーメッセージスタイル */
 .loading-message, .error-message, .no-data-message {
   padding: 12px;
