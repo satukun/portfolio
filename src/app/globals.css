@@ -761,6 +761,8 @@ section { padding: 60px 0; position: relative; }
   grid-template-columns: 1fr 300px;
   gap: 40px;
   align-items: start;
+  /* sticky動作に必要な設定 */
+  position: relative; /* sticky動作の基準要素 */
 }
 
 .blog-main {
@@ -768,12 +770,16 @@ section { padding: 60px 0; position: relative; }
 }
 
 .blog-sidebar-desktop {
+  position: -webkit-sticky; /* Safari対応 */
   position: sticky;
-  top: 90px; /* ヘッダーの高さ + マージン */
-  height: fit-content;
+  top: 80px; /* ヘッダーの高さに合わせて調整 */
+  height: auto;
   align-self: start; /* グリッドアイテムの上部に配置 */
-  max-height: calc(100vh - 100px); /* タグエリアまで表示できるよう緩和 */
+  max-height: calc(100vh - 100px); /* 画面に入るサイズに調整 */
   overflow-y: auto; /* サイドバー内容が長い場合にスクロール */
+  will-change: transform; /* stickyのパフォーマンス向上 */
+  /* デバッグ用：sticky動作を確認 */
+  z-index: 10;
   /* スクロールバーのスタイリング */
   scrollbar-width: thin;
   scrollbar-color: color-mix(in oklab, var(--color-primary) 30%, transparent) transparent;
@@ -816,8 +822,8 @@ section { padding: 60px 0; position: relative; }
   }
   
   .blog-sidebar-desktop {
-    top: 80px;
-    max-height: calc(100vh - 100px); /* タブレット用調整 */
+    top: 70px;
+    max-height: calc(100vh - 90px); /* タブレット用調整 */
   }
 }
 
