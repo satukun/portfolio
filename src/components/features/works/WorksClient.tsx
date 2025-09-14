@@ -29,7 +29,7 @@ export default function WorksClient({ featuredWorks, allWorks }: WorksClientProp
       <section id="works" className="section-works">
         <div className="container">
           <h2 className="section-title" data-reveal="fade-up">Works</h2>
-          <p className="muted" data-reveal="fade-up">
+          <p className="section-description" data-reveal="fade-up">
             これまでに参加した主要なプロジェクトと開発案件をご紹介します。
           </p>
           

@@ -16,6 +16,9 @@ export default function ProfileSection() {
     <section id="profile" className="section-profile">
       <div className="container">
         <h2 className="section-title" data-reveal="fade-up">Profile</h2>
+        <p className="section-description" data-reveal="fade-up">
+          フロントエンドエンジニアとしての経歴、スキル、取り組んできたプロジェクトをご紹介します。
+        </p>
         <div className="profile">
           <div className="avatar-xl" data-reveal="scale">
             <img

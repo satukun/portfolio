@@ -14,7 +14,7 @@ export default function BlogSection({ posts }: BlogSectionProps) {
     <section id="blog">
       <div className="container">
         <h2 className="section-title" data-reveal="fade-up">Blog</h2>
-        <p className="muted" data-reveal="fade-up" style={{ marginBottom: '24px' }}>
+        <p className="section-description" data-reveal="fade-up">
           フロントエンド技術に関する記事やノウハウを発信しています。
         </p>
         

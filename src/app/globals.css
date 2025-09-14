@@ -354,8 +354,24 @@ a {
 
 /* Sections */
 section { padding: 60px 0; position: relative; }
-.section-title { font-family: var(--font-montserrat); font-size: clamp(22px, 3vw, 30px); margin-bottom: 18px; }
-.muted { opacity: .78; }
+.section-title { 
+  font-family: var(--font-montserrat); 
+  font-size: clamp(22px, 3vw, 30px); 
+  margin-bottom: 16px; 
+}
+
+.section-description {
+  opacity: 0.78; 
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.muted { 
+  opacity: .78; 
+}
 .chips { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 19px; }
 .chip { 
   font-size: 12px; 
@@ -832,6 +848,63 @@ section { padding: 60px 0; position: relative; }
 .btn.cta:hover {
   background: color-mix(in oklab, var(--color-primary) 90%, black);
   transform: translateY(-1px);
+}
+
+/* Tech Stack Content */
+.tech-stack-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tech-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.tech-category {
+  background: color-mix(in oklab, var(--color-bg) 95%, var(--color-primary));
+  border: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+}
+
+.tech-category h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--color-primary);
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.tech-item {
+  background: var(--color-primary);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tech-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+@media (max-width: 768px) {
+  .tech-categories {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
 
 /* Blog Layout with Sidebar */

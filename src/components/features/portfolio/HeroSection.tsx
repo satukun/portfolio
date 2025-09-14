@@ -17,7 +17,7 @@ export default function HeroSection() {
             <br />
             技術知見を共有・発信
           </h1>
-          <p className="lead">
+          <p className="section-description">
             フロントエンドの最新技術・ベストプラクティスを実務経験を通じて発信しています。
           </p>
           <div className="hero-ctas">

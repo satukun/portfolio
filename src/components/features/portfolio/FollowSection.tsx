@@ -7,7 +7,7 @@ export default function FollowSection() {
     <section id="contact">
       <div className="container">
         <h2 className="section-title" data-reveal="fade-up">Follow</h2>
-        <p className="muted" data-reveal="fade-up">
+        <p className="section-description" data-reveal="fade-up">
           フロントエンドの最新技術・開発ノウハウを各プラットフォームで発信中。
         </p>
         <div className="follow-grid" style={{ marginTop: 16 }}>
