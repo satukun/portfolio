@@ -38,12 +38,50 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 async function getCategoryPosts(categorySlug: string, page: number = 1, postsPerPage: number = 8) {
   const offset = (page - 1) * postsPerPage;
   
-  const response = await dal.blog.getBlogPosts({
-    limit: postsPerPage,
-    offset,
-    orders: '-publishedAt',
-    filters: `isPublished[equals]true[and]category[contains]${categorySlug}`
-  });
+  // デバッグ用ログ追加
+  // microCMSのカテゴリフィルタリング：複数の構文を試行
+  const filterQueries = [
+    `isPublished[equals]true[and]category[contains]${categorySlug}`,
+    `isPublished[equals]true[and]category.slug[contains]${categorySlug}`,
+    `isPublished[equals]true[and]category.name[contains]${categorySlug}`,
+    `isPublished[equals]true[and]category[equals]${categorySlug}`
+  ];
+
+  let response;
+  let usedFilter = '';
+  
+  // 複数のフィルタリング構文を試行
+  for (const filter of filterQueries) {
+    try {
+      console.log('Trying filter:', filter);
+      response = await dal.blog.getBlogPosts({
+        limit: postsPerPage,
+        offset,
+        orders: '-publishedAt',
+        filters: filter
+      });
+      
+      if (response.totalCount > 0) {
+        usedFilter = filter;
+        console.log('Success with filter:', filter, 'Found:', response.totalCount);
+        break;
+      }
+    } catch (error) {
+      console.log('Filter failed:', filter, error);
+      continue;
+    }
+  }
+  
+  // どのフィルターでも見つからない場合、フィルターなしで全記事取得
+  if (!response || response.totalCount === 0) {
+    console.log('No posts found with any filter, fetching all posts for debugging');
+    response = await dal.blog.getBlogPosts({
+      limit: postsPerPage,
+      offset,
+      orders: '-publishedAt',
+      filters: 'isPublished[equals]true'
+    });
+  }
   
   return {
     posts: response.contents,
