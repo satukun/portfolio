@@ -10,10 +10,11 @@ import RevealInit from "@/components/common/animations/RevealInit";
 import SmoothScroll from "@/components/layouts/SmoothScroll";
 import ScrollTopButton from "@/components/common/buttons/ScrollTopButton";
 import { dal } from "@/dal";
+import { BlogPost } from "@/lib/types";
 
 export default async function Home() {
   // 実際のmicroCMS記事を取得
-  let latestPosts;
+  let latestPosts: BlogPost[];
   try {
     latestPosts = await dal.blog.getLatestPosts(3); // 最新3件を取得
   } catch (error) {
