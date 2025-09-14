@@ -39,12 +39,13 @@ async function getCategoryPosts(categorySlug: string, page: number = 1, postsPer
   const offset = (page - 1) * postsPerPage;
   
   // デバッグ用ログ追加
-  // microCMSのカテゴリフィルタリング：複数の構文を試行
+  // microCMSのカテゴリフィルタリング：正しい構文で試行
   const filterQueries = [
-    `isPublished[equals]true[and]category[contains]${categorySlug}`,
-    `isPublished[equals]true[and]category.slug[contains]${categorySlug}`,
-    `isPublished[equals]true[and]category.name[contains]${categorySlug}`,
-    `isPublished[equals]true[and]category[equals]${categorySlug}`
+    `isPublished[equals]true[and]category.slug[equals]${categorySlug}`, // slugでの完全一致
+    `isPublished[equals]true[and]category.name[equals]${categorySlug}`, // nameでの完全一致
+    `isPublished[equals]true[and]category.slug[contains]${categorySlug}`, // slugでの部分一致
+    `isPublished[equals]true[and]category.name[contains]${categorySlug}`, // nameでの部分一致
+    `isPublished[equals]true[and]category[contains]${categorySlug}` // 基本構文
   ];
 
   let response;
@@ -72,15 +73,15 @@ async function getCategoryPosts(categorySlug: string, page: number = 1, postsPer
     }
   }
   
-  // どのフィルターでも見つからない場合、フィルターなしで全記事取得
+  // フィルターで見つからない場合は空の結果を返す（全記事表示はしない）
   if (!response || response.totalCount === 0) {
-    console.log('No posts found with any filter, fetching all posts for debugging');
-    response = await dal.blog.getBlogPosts({
-      limit: postsPerPage,
-      offset,
-      orders: '-publishedAt',
-      filters: 'isPublished[equals]true'
-    });
+    console.log('No posts found with category:', categorySlug);
+    response = {
+      contents: [],
+      totalCount: 0,
+      offset: 0,
+      limit: postsPerPage
+    };
   }
   
   return {

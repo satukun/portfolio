@@ -39,12 +39,13 @@ async function getTagPosts(tagSlug: string, page: number = 1, postsPerPage: numb
   const offset = (page - 1) * postsPerPage;
   
   // デバッグ用ログ追加
-  // microCMSのタグフィルタリング：複数の構文を試行
+  // microCMSのタグフィルタリング：正しい構文で試行
   const filterQueries = [
-    `isPublished[equals]true[and]tags[contains]${tagSlug}`,
-    `isPublished[equals]true[and]tags.slug[contains]${tagSlug}`,
-    `isPublished[equals]true[and]tags.name[contains]${tagSlug}`,
-    `isPublished[equals]true[and]tags[equals]${tagSlug}`
+    `isPublished[equals]true[and]tags.slug[equals]${tagSlug}`, // slugでの完全一致
+    `isPublished[equals]true[and]tags.name[equals]${tagSlug}`, // nameでの完全一致
+    `isPublished[equals]true[and]tags.slug[contains]${tagSlug}`, // slugでの部分一致
+    `isPublished[equals]true[and]tags.name[contains]${tagSlug}`, // nameでの部分一致
+    `isPublished[equals]true[and]tags[contains]${tagSlug}` // 基本構文
   ];
 
   let response;
@@ -72,15 +73,15 @@ async function getTagPosts(tagSlug: string, page: number = 1, postsPerPage: numb
     }
   }
   
-  // どのフィルターでも見つからない場合、フィルターなしで全記事取得
+  // フィルターで見つからない場合は空の結果を返す（全記事表示はしない）
   if (!response || response.totalCount === 0) {
-    console.log('No posts found with any filter, fetching all posts for debugging');
-    response = await dal.blog.getBlogPosts({
-      limit: postsPerPage,
-      offset,
-      orders: '-publishedAt',
-      filters: 'isPublished[equals]true'
-    });
+    console.log('No posts found with tag:', tagSlug);
+    response = {
+      contents: [],
+      totalCount: 0,
+      offset: 0,
+      limit: postsPerPage
+    };
   }
   
   return {
