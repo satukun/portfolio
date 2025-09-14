@@ -47,19 +47,19 @@ export default function Header({ onTechStackOpen }: HeaderProps = {}) {
         </Link>
         <nav className={`nav ${open ? "open" : ""}`}>
           <Link href="/#profile" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>person</span>Profile
+            Profile
           </Link>
           <Link href="/#works" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>work</span>Works
+            Works
           </Link>
           <Link href="/#blog" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>article</span>Blog
+            Blog
           </Link>
           <Link href="/#contact" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>mail</span>Contact
+            Contact
           </Link>
           <Link href="/#follow" onClick={() => setOpen(false)}>
-            <span className="material-symbols-outlined" aria-hidden>person_add</span>Follow
+            Follow
           </Link>
           {/* <a className="btn cta" href="#posts" onClick={() => setOpen(false)}>
             記事を読む
