@@ -24,18 +24,18 @@ export default function ProfileSection() {
             <img
               src="/profile_image/sandaga.svg"
               alt="YOUSUKE"
-              width={300}
-              height={300}
+              width={200}
+              height={200}
               style={{ 
                 display: 'block', 
-                width: '300px', 
-                height: '300px', 
+                width: '200px', 
+                height: '200px', 
                 objectFit: 'cover',
                 transform: 'scale(1.1)' 
               }}
             />
           </div>
-          <div>
+          <div className="profile-content">
             <h3 data-reveal="fade-right">YOUSUKE</h3>
             <p className="muted" data-reveal="fade-right">
               エンジニア歴10年以上 / フロントエンド×AI活用
@@ -51,12 +51,12 @@ export default function ProfileSection() {
               ))}
             </div>
             <div style={{ marginTop: 14 }} data-reveal="fade-right">
-              <a className="btn secondary icon-btn" href="https://note.com/akira_papa_ai" target="_blank" title="note">
+              <a className="btn secondary icon-btn" href="https://note.com/dec_mugi" target="_blank" title="note">
                 <span className="material-symbols-outlined">article</span>
                 note
               </a>
               <span style={{ display: "inline-block", width: 8 }} />
-              <a className="btn primary icon-btn" href="https://github.com/yousuke" target="_blank" title="GitHub">
+              <a className="btn primary icon-btn" href="https://github.com/satukun" target="_blank" title="GitHub">
                 <span className="material-symbols-outlined">code</span>
                 GitHub
               </a>

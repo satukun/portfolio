@@ -94,7 +94,7 @@ export default function WorksSlidePanel({ isOpen, onClose, works }: WorksSlidePa
               ))}
             </div>
             {filteredWorks.length > 0 ? (
-              <WorksGrid works={filteredWorks} columns={5} disableReveal={true} />
+              <WorksGrid works={filteredWorks} columns={4} disableReveal={true} />
             ) : (
               <div className="no-works-message">
                 <p>選択したフィルターに該当する案件がありません。</p>

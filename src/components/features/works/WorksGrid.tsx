@@ -6,7 +6,7 @@ import { workHelpers } from "@/dal/works";
 
 interface WorksGridProps {
   works: WorkItem[];
-  columns?: 3 | 5 | 6;
+  columns?: number;
   showMore?: boolean;
   onMoreClick?: () => void;
   disableReveal?: boolean;
@@ -26,7 +26,7 @@ export default function WorksGrid({ works, columns = 3, showMore = false, onMore
     setSelectedWork(null);
   };
 
-  const gridClass = columns === 6 ? 'works-grid-6' : columns === 5 ? 'works-grid-5' : 'works-grid-3';
+  const gridClass = columns === 6 ? 'works-grid-6' : columns === 5 ? 'works-grid-5' : columns === 4 ? 'works-grid-4' : 'works-grid-3';
 
   return (
     <>

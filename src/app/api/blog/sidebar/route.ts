@@ -46,7 +46,7 @@ async function getCategoriesWithCount(): Promise<Array<{name: string; slug: stri
     const categoryCount = new Map<string, {name: string; slug: string; count: number}>();
     
     allPosts.forEach(post => {
-      if (post.category) {
+      if (post.category && post.category.name) {
         const key = post.category.id || post.category.name;
         if (categoryCount.has(key)) {
           const existing = categoryCount.get(key)!;

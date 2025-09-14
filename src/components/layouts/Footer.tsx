@@ -28,10 +28,10 @@ export default function Footer() {
           <div className="f-title">SNS</div>
           <ul>
             <li>
-              <a href="https://note.com/akira_papa_ai" target="_blank">note</a>
+              <a href="https://note.com/dec_mugi" target="_blank">note</a>
             </li>
             <li>
-              <a href="https://github.com/yousuke" target="_blank">GitHub</a>
+              <a href="https://github.com/satukun" target="_blank">GitHub</a>
             </li>
           </ul>
         </div>
