@@ -3,11 +3,9 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import Link from 'next/link';
 import Header from '@/components/layouts/Header';
-import Footer from '@/components/layouts/Footer';
 import BlogList from '@/components/features/blog/BlogList';
 import BlogSidebar from '@/components/features/blog/BlogSidebar';
 import BlogPagination from '@/components/features/blog/BlogPagination';
-import RevealInit from '@/components/common/animations/RevealInit';
 import { dal } from '@/dal';
 import { BlogPost } from '@/lib/types';
 
@@ -199,8 +197,6 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
         </section>
       </main>
       
-      <Footer />
-      <RevealInit />
     </>
   );
 }

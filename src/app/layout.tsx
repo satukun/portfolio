@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import Footer from "@/components/layouts/Footer";
+import RevealInit from "@/components/common/animations/RevealInit";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -71,6 +73,8 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <Footer />
+        <RevealInit />
       </body>
     </html>
   );

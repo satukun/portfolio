@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Header from '@/components/layouts/Header';
-import Footer from '@/components/layouts/Footer';
 
 export default function BlogNotFound() {
   return (
@@ -29,7 +28,6 @@ export default function BlogNotFound() {
         </div>
       </main>
       
-      <Footer />
     </>
   );
 }

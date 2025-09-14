@@ -1,11 +1,9 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import Header from '@/components/layouts/Header';
-import Footer from '@/components/layouts/Footer';
 import BlogList from '@/components/features/blog/BlogList';
 import BlogSidebar from '@/components/features/blog/BlogSidebar';
 import BlogPagination from '@/components/features/blog/BlogPagination';
-import RevealInit from '@/components/common/animations/RevealInit';
 import { dal } from '@/dal';
 
 export const metadata: Metadata = {
@@ -122,8 +120,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         </section>
       </main>
       
-      <Footer />
-      <RevealInit />
     </>
   );
 }
