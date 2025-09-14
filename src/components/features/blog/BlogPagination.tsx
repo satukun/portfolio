@@ -5,13 +5,15 @@ interface BlogPaginationProps {
   totalPages: number;
   totalCount: number;
   postsPerPage: number;
+  baseUrl?: string; // カテゴリ・タグページ用のベースURL
 }
 
 export default function BlogPagination({ 
   currentPage, 
   totalPages, 
   totalCount, 
-  postsPerPage 
+  postsPerPage,
+  baseUrl = '/blog'
 }: BlogPaginationProps) {
   // ページネーション表示の範囲を計算
   const getPageNumbers = () => {
@@ -53,7 +55,7 @@ export default function BlogPagination({
           {/* 前ページボタン */}
           {currentPage > 1 ? (
             <Link 
-              href={`/blog?page=${currentPage - 1}`}
+              href={`${baseUrl}?page=${currentPage - 1}`}
               className="pagination-btn pagination-prev"
               aria-label="前のページ"
             >
@@ -72,7 +74,7 @@ export default function BlogPagination({
             {/* 最初のページ */}
             {pageNumbers[0] > 1 && (
               <>
-                <Link href="/blog?page=1" className="pagination-number">
+                <Link href={`${baseUrl}?page=1`} className="pagination-number">
                   1
                 </Link>
                 {pageNumbers[0] > 2 && (
@@ -85,7 +87,7 @@ export default function BlogPagination({
             {pageNumbers.map((pageNum) => (
               <Link
                 key={pageNum}
-                href={`/blog?page=${pageNum}`}
+                href={`${baseUrl}?page=${pageNum}`}
                 className={`pagination-number ${pageNum === currentPage ? 'active' : ''}`}
                 aria-current={pageNum === currentPage ? 'page' : undefined}
               >
@@ -100,7 +102,7 @@ export default function BlogPagination({
                   <span className="pagination-ellipsis">...</span>
                 )}
                 <Link 
-                  href={`/blog?page=${totalPages}`} 
+                  href={`${baseUrl}?page=${totalPages}`} 
                   className="pagination-number"
                 >
                   {totalPages}
@@ -112,7 +114,7 @@ export default function BlogPagination({
           {/* 次ページボタン */}
           {currentPage < totalPages ? (
             <Link 
-              href={`/blog?page=${currentPage + 1}`}
+              href={`${baseUrl}?page=${currentPage + 1}`}
               className="pagination-btn pagination-next"
               aria-label="次のページ"
             >
