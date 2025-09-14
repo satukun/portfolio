@@ -56,6 +56,9 @@ export default function Header({ onTechStackOpen }: HeaderProps = {}) {
             <span className="material-symbols-outlined" aria-hidden>article</span>Blog
           </Link>
           <Link href="/#contact" onClick={() => setOpen(false)}>
+            <span className="material-symbols-outlined" aria-hidden>mail</span>Contact
+          </Link>
+          <Link href="/#follow" onClick={() => setOpen(false)}>
             <span className="material-symbols-outlined" aria-hidden>person_add</span>Follow
           </Link>
           {/* <a className="btn cta" href="#posts" onClick={() => setOpen(false)}>

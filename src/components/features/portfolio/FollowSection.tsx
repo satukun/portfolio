@@ -4,7 +4,7 @@
  */
 export default function FollowSection() {
   return (
-    <section id="contact">
+    <section id="follow">
       <div className="container">
         <h2 className="section-title" data-reveal="fade-up">Follow</h2>
         <p className="section-description" data-reveal="fade-up">

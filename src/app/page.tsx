@@ -5,7 +5,7 @@ import TechStackSection from "@/components/features/tech-stack/TechStackSection"
 import WorksSection from "@/components/features/works/WorksSection";
 import BlogSection from "@/components/features/blog/BlogSection";
 import FollowSection from "@/components/features/portfolio/FollowSection";
-import Footer from "@/components/layouts/Footer";
+import ContactSection from "@/components/features/contact/ContactSection";
 import RevealInit from "@/components/common/animations/RevealInit";
 import SmoothScroll from "@/components/layouts/SmoothScroll";
 import ScrollTopButton from "@/components/common/buttons/ScrollTopButton";
@@ -34,8 +34,10 @@ export default async function Home() {
       {/* Blog */}
       <BlogSection posts={latestPosts} />
       
+      {/* Contact */}
+      <ContactSection />
+      
       <FollowSection />
-      <Footer />
       <RevealInit />
       <SmoothScroll />
       <ScrollTopButton />
