@@ -36,12 +36,43 @@ function buildEmailHtml({ name, email, message }: ContactFormData) {
   </div>`;
 }
 
+async function sendViaFormspree(data: ContactFormData) {
+  const FORMSPREE_FORM_ID = process.env.FORMSPREE_FORM_ID;
+
+  if (!FORMSPREE_FORM_ID) return { sent: false, reason: 'missing_formspree_id' } as const;
+
+  const res = await fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      name: data.name,
+      email: data.email,
+      message: data.message,
+      _subject: `【お問い合わせ】${data.name}様より`,
+    }),
+    // Vercelのedge/nodeに外部呼び出しを処理させる（キャッシュなし）
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Formspree API error: ${res.status} ${res.statusText} ${text}`);
+  }
+  
+  const json = await res.json().catch(() => ({}));
+  return { sent: true, id: json?.id } as const;
+}
+
+// Resend用関数（将来的な独自ドメイン対応）
 async function sendViaResend(data: ContactFormData) {
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   const TO = process.env.CONTACT_TO_EMAIL;
-  const FROM = process.env.CONTACT_FROM_EMAIL || 'Portfolio <onboarding@resend.dev>';
+  const FROM = process.env.CONTACT_FROM_EMAIL; // 独自ドメイン必須
 
-  if (!RESEND_API_KEY || !TO) return { sent: false, reason: 'missing_env' } as const;
+  if (!RESEND_API_KEY || !TO || !FROM) return { sent: false, reason: 'missing_resend_config' } as const;
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -50,14 +81,13 @@ async function sendViaResend(data: ContactFormData) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: FROM,
+      from: FROM, // 認証済み独自ドメインが必要
       to: [TO],
       reply_to: [data.email],
-      subject: `【お問い合わせ】${data.name} 様より`,
+      subject: `【お問い合わせ】${data.name}様より`,
       html: buildEmailHtml(data),
       text: `お名前: ${data.name}\nメール: ${data.email}\n\n内容:\n${data.message}`,
     }),
-    // Vercelのedge/nodeに外部呼び出しを処理させる（キャッシュなし）
     cache: 'no-store',
   });
 
@@ -65,6 +95,7 @@ async function sendViaResend(data: ContactFormData) {
     const text = await res.text().catch(() => '');
     throw new Error(`Resend API error: ${res.status} ${res.statusText} ${text}`);
   }
+  
   const json = await res.json().catch(() => ({}));
   return { sent: true, id: json?.id } as const;
 }
@@ -83,18 +114,42 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true }, { status: 202 });
     }
 
-    // Resend経由での送信を試行、設定されていない場合はログのみにフォールバック
+    // メール送信の優先順位：Formspree → Resend → ログ保存
     try {
-      const r = await sendViaResend(parsed as ContactFormData);
-      if (r.sent) {
-        return NextResponse.json({ ok: true, id: r.id }, { status: 200 });
+      // Priority 1: Formspree（現在・無料ドメイン対応）
+      const formspreeResult = await sendViaFormspree(parsed as ContactFormData);
+      if (formspreeResult.sent) {
+        return NextResponse.json({ 
+          ok: true, 
+          id: formspreeResult.id, 
+          method: 'formspree' 
+        }, { status: 200 });
       }
-      // フォールバック：サーバーにログを記録して受け入れ
-      console.warn('Email provider not configured. Logging message only.', parsed);
-      return NextResponse.json({ ok: true, mode: 'log-only' }, { status: 202 });
+
+      // Priority 2: Resend（将来・独自ドメイン対応）
+      const resendResult = await sendViaResend(parsed as ContactFormData);
+      if (resendResult.sent) {
+        return NextResponse.json({ 
+          ok: true, 
+          id: resendResult.id, 
+          method: 'resend' 
+        }, { status: 200 });
+      }
+
+      // Priority 3: フォールバック（ログ保存）
+      console.warn('Email providers not configured. Logging message only.', parsed);
+      return NextResponse.json({ 
+        ok: true, 
+        mode: 'log-only',
+        note: 'メール送信設定が必要です'
+      }, { status: 202 });
+
     } catch (e) {
       console.error('Email send failed:', e);
-      return NextResponse.json({ error: 'メール送信に失敗しました' }, { status: 502 });
+      return NextResponse.json({ 
+        error: 'メール送信に失敗しました',
+        fallback: 'ログに保存されました'
+      }, { status: 502 });
     }
   } catch (err: unknown) {
     if (err && typeof err === 'object' && 'name' in err && err.name === 'ValidationError') {
