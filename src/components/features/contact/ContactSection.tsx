@@ -28,10 +28,15 @@ export default function ContactSection() {
 
     setIsSubmitting(true);
     try {
-      // TODO: 実際のAPI送信処理をここに実装
-      // 現在はデモ用の遅延処理
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to send');
+      }
+
       setSubmitStatus('success');
       setIsModalOpen(false);
       setFormData(null);

@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="container copyright">
-        © 2025 YOUSUKE
+        © 2025 YO.Blog
       </div>
     </footer>
   );

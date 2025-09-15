@@ -40,10 +40,10 @@ export default function Header({ onTechStackOpen }: HeaderProps = {}) {
     <header className={`header ${scrolled ? "is-scrolled" : ""} ${pastHero ? "past-hero" : ""}`}>
       <div className="container header-inner">
         <Link href="/" className="brand" onClick={() => setOpen(false)}>
-          <span className="brand-avatar">
-            <Image src="/profile_image/sandaga.svg" alt="YOUSUKE" width={32} height={32} />
-          </span>
-          <span className="brand-text">YOUSUKE</span>
+          {/* <span className="brand-avatar">
+            <Image src="/profile_image/sandaga.svg" alt="YO.Blog" width={32} height={32} />
+          </span> */}
+          <span className="brand-text">YO.Blog</span>
         </Link>
         <nav className={`nav ${open ? "open" : ""}`}>
           <Link href="/#profile" onClick={() => setOpen(false)}>
