@@ -3,6 +3,8 @@ import { useState } from "react";
 import Header from "@/components/layouts/Header";
 import Particles from "@/components/common/animations/Particles";
 import TechStackSlidePanel from "@/components/features/tech-stack/TechStackSlidePanel";
+import SuccessNotification from "@/components/common/notifications/SuccessNotification";
+import { useNotification } from "@/lib/contexts/NotificationContext";
 
 /**
  * ホームページのクライアントサイド機能のみを担当
@@ -10,6 +12,7 @@ import TechStackSlidePanel from "@/components/features/tech-stack/TechStackSlide
  */
 export default function HomeClient() {
   const [isTechStackPanelOpen, setIsTechStackPanelOpen] = useState(false);
+  const { notification, hideNotification } = useNotification();
 
   const handleTechStackOpen = () => {
     setIsTechStackPanelOpen(true);
@@ -21,6 +24,12 @@ export default function HomeClient() {
 
   return (
     <>
+      <SuccessNotification
+        isVisible={notification.isVisible}
+        onClose={hideNotification}
+        title={notification.title}
+        message={notification.message}
+      />
       <div className="particles-background">
         <Particles />
       </div>
@@ -33,3 +42,4 @@ export default function HomeClient() {
     </>
   );
 }
+

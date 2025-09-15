@@ -1,4 +1,13 @@
-# YOUSUKE.SATO — 生成AIをエンジニア視点で共有する個人ブランディングサイト（Next.js）
+# YO.Blog — フロントエンドエンジニアの技術知見共有サイト（Next.js）
+
+## 🌟 主要機能
+
+- **シンプルHero**: 「YO.Blog」大型タイトル・中央配置・ミニマルデザイン
+- **ブログシステム**: microCMS連携・カテゴリ別・タグ別表示・ISR対応
+- **Works管理**: 制作実績・技術スタック・詳細モーダル表示
+- **お問い合わせ**: バリデーション・確認フロー・成功通知（ヘッダー下固定表示）
+- **技術スタック表示**: スライドパネル・習熟度表示・カテゴリ別
+- **レスポンシブ対応**: 5段階ブレークポイント・モバイル最適化
 
 ## ローカル開発
 
@@ -29,7 +38,15 @@
 
 ## 技術要素
 
-- Next.js (App Router, TypeScript)
-- フォント: Noto Sans JP / Montserrat / Source Code Pro（Google Fonts `<link>` 読み込み）
-- 演出: パーティクル、タイプライター、スクロールリビール、波形SVG、モバイルメニュー、スクロールトップ
-- SEO: OGP/Twitterカード、`robots.ts` / `sitemap.ts`
+- **フレームワーク**: Next.js 15 (App Router, TypeScript, React 19)
+- **CMS**: microCMS（ブログ・Works・カテゴリ・タグ管理）
+- **スタイリング**: CSS3（レスポンシブ・ダークモード・アニメーション）
+- **フォント**: Noto Sans JP / Montserrat / Source Code Pro（Google Fonts）
+- **UI機能**: 
+  - パーティクル背景・スクロールアニメーション
+  - お問い合わせフォーム（React Hook Form + Yup）
+  - 成功通知システム（NotificationContext）
+  - 技術スタックスライドパネル
+  - Works詳細モーダル・ブログページネーション
+- **SEO**: メタデータ・OGP・サイトマップ・robots.txt
+- **デプロイ**: Vercel（自動デプロイ・ISR・Edge Network）

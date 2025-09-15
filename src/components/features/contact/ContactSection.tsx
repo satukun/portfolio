@@ -4,12 +4,14 @@ import { useState } from 'react';
 import ContactForm from './ContactForm';
 import ContactConfirmationModal from './ContactConfirmationModal';
 import { ContactFormData } from '@/lib/validation/contact';
+import { useNotification } from '@/lib/contexts/NotificationContext';
 
 export default function ContactSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<ContactFormData | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const { showSuccessNotification } = useNotification();
 
   const handleFormSubmit = (data: ContactFormData) => {
     setFormData(data);
@@ -41,6 +43,9 @@ export default function ContactSection() {
       setIsModalOpen(false);
       setFormData(null);
       
+      // ヘッダー下に成功通知を表示
+      showSuccessNotification();
+      
       // 3秒後にステータスをリセット
       setTimeout(() => {
         setSubmitStatus('idle');
@@ -68,17 +73,7 @@ export default function ContactSection() {
           </p>
         </div>
 
-        {/* 送信ステータス表示 */}
-        {submitStatus === 'success' && (
-          <div className="status-message success" data-reveal="fade-up">
-            <div className="status-icon">✓</div>
-            <div className="status-text">
-              <h3>送信完了</h3>
-              <p>お問い合わせありがとうございます。確認次第、お返事いたします。</p>
-            </div>
-          </div>
-        )}
-
+        {/* エラーメッセージのみ表示（成功メッセージはヘッダー下に表示） */}
         {submitStatus === 'error' && (
           <div className="status-message error" data-reveal="fade-up">
             <div className="status-icon">⚠</div>

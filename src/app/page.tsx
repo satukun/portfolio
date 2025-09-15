@@ -1,3 +1,4 @@
+import PageWrapper from "@/components/layouts/PageWrapper";
 import HomeClient from "@/components/features/portfolio/HomeClient";
 import HeroSection from "@/components/features/portfolio/HeroSection";
 import ProfileSection from "@/components/features/portfolio/ProfileSection";
@@ -22,7 +23,7 @@ export default async function Home() {
     latestPosts = []; // エラー時は空配列
   }
   return (
-    <>
+    <PageWrapper>
       <HomeClient />
       
       {/* Server Components */}
@@ -41,6 +42,6 @@ export default async function Home() {
       <RevealInit />
       <SmoothScroll />
       <ScrollTopButton />
-    </>
+    </PageWrapper>
   );
 }
